@@ -1,0 +1,912 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Latihan Calisthenics</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0369a1',
+                            700: '#075985',
+                            900: '#0c4a6e',
+                        },
+                        senin: '#059669',
+                        rabu: '#d97706',
+                        jumat: '#7c3aed',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200 pb-16">
+
+    <!-- TOP HEADER / NAV BAR -->
+    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-brand-500 text-white rounded-xl shadow-md shadow-brand-500/20">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                </div>
+                <div>
+                    <h1 class="text-lg font-extrabold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-600 dark:from-brand-400 dark:to-indigo-400 bg-clip-text text-transparent">CALISTRACK</h1>
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">6-Week Progress Builder</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-3">
+                <!-- Theme Toggle -->
+                <button id="themeToggleBtn" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:scale-105 active:scale-95 transition" aria-label="Toggle Theme">
+                    <svg id="sunIcon" class="w-5 h-5 text-amber-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
+                    <svg id="moonIcon" class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
+        
+        <!-- DASHBOARD HERO CARD -->
+        <section class="bg-gradient-to-br from-slate-900 via-brand-950 to-slate-900 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
+            <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+                <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99z"/></svg>
+            </div>
+            
+            <div class="relative z-10 space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div>
+                        <span class="px-3 py-1 bg-brand-500/20 text-brand-300 text-xs font-semibold rounded-full border border-brand-500/30">Program Latihan Rutin</span>
+                        <h2 class="text-2xl md:text-3xl font-extrabold mt-2 tracking-tight">Kuasai Beban Tubuh Anda</h2>
+                        <p class="text-sm text-slate-300 mt-1">Sistem progresi bertahap 6 minggu untuk kekuatan, hipertrofi, dan daya tahan.</p>
+                    </div>
+                    
+                    <!-- Fase Minggu Selector -->
+                    <div class="bg-white/10 p-1.5 rounded-2xl border border-white/10 backdrop-blur-sm self-start md:self-auto">
+                        <span class="block text-[10px] font-bold text-slate-400 uppercase px-2 mb-1">Target Fase</span>
+                        <div class="flex gap-1">
+                            <button onclick="setWeekPhase(1)" id="phaseBtn1" class="phase-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition duration-200">Minggu 1-2</button>
+                            <button onclick="setWeekPhase(2)" id="phaseBtn2" class="phase-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition duration-200">Minggu 3-4</button>
+                            <button onclick="setWeekPhase(3)" id="phaseBtn3" class="phase-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition duration-200">Minggu 5-6</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Panel -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-white/10">
+                    <div class="bg-white/5 p-3 rounded-2xl">
+                        <p class="text-xs text-slate-400">Total Gerakan</p>
+                        <p class="text-xl font-bold mt-1">15 Variasi</p>
+                    </div>
+                    <div class="bg-white/5 p-3 rounded-2xl">
+                        <p class="text-xs text-slate-400">Fokus Latihan</p>
+                        <p class="text-xl font-bold mt-1 text-sky-400">Full-Body</p>
+                    </div>
+                    <div class="bg-white/5 p-3 rounded-2xl">
+                        <p class="text-xs text-slate-400">Fase Aktif</p>
+                        <p id="activePhaseLabel" class="text-xl font-bold mt-1 text-emerald-400">Minggu 1-2</p>
+                    </div>
+                    <div class="bg-white/5 p-3 rounded-2xl">
+                        <p class="text-xs text-slate-400">Penyelesaian Hari Ini</p>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span id="sessionProgressPct" class="text-xl font-bold">0%</span>
+                            <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+                                <div id="sessionProgressBar" class="bg-emerald-400 h-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAY SCHEDULE COMPONENT -->
+        <section class="space-y-4">
+            <!-- Day Selector Tabs -->
+            <div class="grid grid-cols-3 gap-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl">
+                <button onclick="switchTab('senin')" id="tabBtn-senin" class="tab-button py-3 text-sm font-bold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                    <span>SENIN</span>
+                    <span class="text-[10px] opacity-70 font-normal hidden sm:inline">(Push/Legs)</span>
+                </button>
+                <button onclick="switchTab('rabu')" id="tabBtn-rabu" class="tab-button py-3 text-sm font-bold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                    <span>RABU</span>
+                    <span class="text-[10px] opacity-70 font-normal hidden sm:inline">(Pull/Core)</span>
+                </button>
+                <button onclick="switchTab('jumat')" id="tabBtn-jumat" class="tab-button py-3 text-sm font-bold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5">
+                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
+                    <span>JUMAT</span>
+                    <span class="text-[10px] opacity-70 font-normal hidden sm:inline">(Full Body)</span>
+                </button>
+            </div>
+
+            <!-- Tab Content Wrapper -->
+            <div class="space-y-4">
+                <!-- Day Info & Start Workout Button -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div>
+                        <h3 id="selectedDayTitle" class="text-lg font-extrabold flex items-center gap-2">
+                            <!-- Populated dynamically -->
+                        </h3>
+                        <p id="selectedDaySub" class="text-xs text-slate-500 dark:text-slate-400 mt-1"></p>
+                    </div>
+                    <button id="startWorkoutBtn" onclick="openWorkoutPlayer()" class="w-full sm:w-auto px-5 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold shadow-lg shadow-brand-500/20 active:scale-95 transition flex items-center justify-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Mulai Sesi Latihan</span>
+                    </button>
+                </div>
+
+                <!-- Exercises Cards Container -->
+                <div id="exerciseList" class="grid gap-4">
+                    <!-- Cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLOATING PLAYBACK CONTROLLER / ACTIVE WORKOUT HUD (Minimized state) -->
+    <div id="workoutHud" class="fixed bottom-4 left-4 right-4 max-w-lg mx-auto bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-800 flex items-center justify-between gap-4 transition-transform duration-300 translate-y-96 z-50">
+        <div class="flex items-center gap-3">
+            <div class="relative w-10 h-10 flex items-center justify-center rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 animate-pulse">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
+            </div>
+            <div>
+                <p class="text-xs text-slate-400">Latihan Sedang Berjalan</p>
+                <p id="hudExerciseName" class="text-sm font-extrabold truncate max-w-[150px] sm:max-w-[200px]">Push Up</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-2">
+            <span id="hudProgressText" class="text-xs text-slate-400 font-semibold bg-white/10 px-2 py-1 rounded">Set 0/3</span>
+            <button onclick="maximizeWorkoutPlayer()" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 rounded-xl text-xs font-bold transition">Buka Player</button>
+        </div>
+    </div>
+
+    <!-- WORKOUT PLAYER MODAL (Full Screen / Overlay) -->
+    <div id="playerModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
+        <div class="bg-white dark:bg-slate-900 text-slate-800 dark:text-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <!-- Header -->
+            <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
+                <div>
+                    <span id="playerDayBadge" class="px-2.5 py-0.5 text-[10px] font-bold rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">Senin (Push/Legs)</span>
+                    <h3 class="text-lg font-extrabold mt-1">Sesi Latihan Aktif</h3>
+                </div>
+                <button onclick="minimizeWorkoutPlayer()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-red-500 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Scrollable Content -->
+            <div class="p-6 overflow-y-auto space-y-6 flex-1">
+                <!-- Progress bar -->
+                <div class="space-y-1">
+                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
+                        <span>Laju Sesi</span>
+                        <span id="playerOverallProgressText">0/5 Gerakan</span>
+                    </div>
+                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                        <div id="playerProgressBar" class="bg-brand-500 h-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Main Exercise Focus -->
+                <div class="p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-800 text-center space-y-3">
+                    <div class="flex items-center justify-between text-xs text-slate-400 uppercase font-bold tracking-widest">
+                        <button onclick="navigateExercise(-1)" id="prevExBtn" class="p-1 hover:text-slate-200 transition">← Kiri</button>
+                        <span>Gerakan <span id="currentExNum">1</span> dari <span id="totalExNum">5</span></span>
+                        <button onclick="navigateExercise(1)" id="nextExBtn" class="p-1 hover:text-slate-200 transition">Kanan →</button>
+                    </div>
+                    <h4 id="playerExName" class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Push Up</h4>
+                    <p id="playerExMuscle" class="inline-block px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-full">Dada, Trisep</p>
+                </div>
+
+                <!-- Interactive Set List -->
+                <div class="space-y-3">
+                    <h5 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Daftar Set (<span id="targetPhaseText">Minggu 1-2</span>)</h5>
+                    <div id="playerSetsContainer" class="space-y-2">
+                        <!-- Sets cards built in JS -->
+                    </div>
+                </div>
+
+                <!-- Built-In Timer Widget inside Player -->
+                <div id="timerContainer" class="p-4 bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-between transition duration-200 opacity-50">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-amber-500 text-white rounded-lg">
+                            <svg class="w-5 h-5 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-bold uppercase tracking-wider">Waktu Istirahat</p>
+                            <p id="timerDisplay" class="text-xl font-mono font-extrabold">01:00</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="adjustTimer(-10)" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-xs font-bold rounded">-10s</button>
+                        <button onclick="adjustTimer(10)" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-xs font-bold rounded">+10s</button>
+                        <button id="skipTimerBtn" onclick="skipRest()" class="px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-lg hover:bg-amber-600 transition">Lewati</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Action Button -->
+            <div class="p-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex gap-3">
+                <button onclick="closeWorkoutSession()" class="flex-1 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl font-bold transition text-center text-sm">Akhiri Sesi</button>
+                <button onclick="finishSession()" id="finishSessionBtn" class="flex-[2] py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-extrabold shadow-lg shadow-emerald-500/20 transition text-center text-sm disabled:opacity-50 disabled:cursor-not-allowed" disabled>Selesaikan Latihan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUDIO PLAYER ALERT ELEMENT (Procedural Synthesis backup included) -->
+    <audio id="timerAudioAlert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-600.wav" preload="auto"></audio>
+
+    <!-- Custom Notification Toast -->
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 text-sm font-semibold transition-all duration-300 translate-y-24 opacity-0 z-50">
+        <span id="toastIcon">💡</span>
+        <span id="toastMessage">Semangat! Sesi latihan baru dimulai.</span>
+    </div>
+
+    <!-- CONGRATULATIONS MODAL -->
+    <div id="congratsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl max-w-md w-full text-center space-y-6 shadow-2xl border border-slate-200 dark:border-slate-800">
+            <div class="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-4xl shadow-lg shadow-emerald-500/30">
+                🎉
+            </div>
+            <div class="space-y-2">
+                <h3 class="text-2xl font-extrabold">Kerja Bagus!</h3>
+                <p class="text-slate-500 dark:text-slate-400 text-sm">Anda telah menyelesaikan program latihan hari ini dengan konsisten. Satu langkah lebih dekat menuju tubuh impian Anda!</p>
+            </div>
+            <div class="bg-slate-100 dark:bg-slate-800 p-4 rounded-2xl flex justify-around">
+                <div>
+                    <span class="block text-xs text-slate-400">Hari Selesai</span>
+                    <span id="congratsDay" class="text-lg font-bold">Senin</span>
+                </div>
+                <div class="border-l border-slate-200 dark:border-slate-700"></div>
+                <div>
+                    <span class="block text-xs text-slate-400">Total Gerakan</span>
+                    <span id="congratsExCompleted" class="text-lg font-bold">5 / 5</span>
+                </div>
+            </div>
+            <button onclick="closeCongratsModal()" class="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/20 active:scale-95 transition">Kembali ke Dashboard</button>
+        </div>
+    </div>
+
+    <!-- CALISTHENICS DATA ENGINE -->
+    <script>
+        const workoutData = {
+            senin: {
+                dayName: "SENIN",
+                focus: "Push & Legs Focus",
+                description: "Fokus pada kekuatan mendorong (otot dada, trisep, bahu depan) serta kekuatan kaki (paha depan & betis).",
+                exercises: [
+                    {
+                        no: 1,
+                        name: "Push Up",
+                        muscle: "Dada, trisep, bahu depan",
+                        guide: "Jaga tubuh tetap lurus seperti papan. Turunkan dada hingga sedekat mungkin dengan lantai, lalu dorong kembali ke atas sampai tangan lurus tanpa mengunci siku.",
+                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 6-8"]
+                    },
+                    {
+                        no: 2,
+                        name: "Chair Dip",
+                        muscle: "Trisep, dada bawah",
+                        guide: "Gunakan kursi kokoh. Tempatkan tangan di tepi, kaki diluruskan ke depan. Turunkan pinggul dengan membengkokkan siku hingga membentuk sudut 90 derajat.",
+                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 6-8"]
+                    },
+                    {
+                        no: 3,
+                        name: "Air Squat",
+                        muscle: "Paha depan, bokong",
+                        guide: "Buka kaki selebar bahu. Turunkan bokong ke belakang seperti hendak duduk di kursi. Usahakan paha sejajar dengan lantai dengan dada tetap tegap.",
+                        progressions: ["2 x 8-10", "2 x 10-12", "3 x 10-12"]
+                    },
+                    {
+                        no: 4,
+                        name: "Calf Raise",
+                        muscle: "Betis",
+                        guide: "Berdiri tegak, angkat tumit Anda setinggi mungkin bertumpu pada ujung kaki. Tahan 1 detik di atas, lalu turunkan tumit secara perlahan.",
+                        progressions: ["2 x 12-15", "2 x 15-20", "3 x 15-20"]
+                    },
+                    {
+                        no: 5,
+                        name: "Plank (Tahan)",
+                        muscle: "Perut (Core)",
+                        guide: "Bertumpulah pada lengan bawah dan jari kaki. Kencangkan perut dan bokong. Jaga garis lurus dari kepala hingga tumit sepanjang waktu.",
+                        progressions: ["2 x 20 dtk", "2 x 30 dtk", "3 x 25 dtk"]
+                    }
+                ]
+            },
+            rabu: {
+                dayName: "RABU",
+                focus: "Pull & Core Focus",
+                description: "Fokus pada tarikan (otot punggung, bisep, bahu belakang) serta kestabilan perut tengah dan bawah.",
+                exercises: [
+                    {
+                        no: 1,
+                        name: "Pull Up / Australian Pull Up",
+                        muscle: "Punggung lebar, bisep",
+                        guide: "Jika melakukan Pull Up: tarik dagu melampaui bar. Jika Australian Pull Up: posisikan bar setinggi pinggang, condongkan tubuh di bawah bar, lalu tarik dada menyentuh bar.",
+                        progressions: ["2 x 3-5 (Aust: 2x6-8)", "2 x 5-6 (Aust: 2x8-10)", "3 x 5-6 (Aust: 3x8-10)"]
+                    },
+                    {
+                        no: 2,
+                        name: "Bodyweight Row / Inverted Row",
+                        muscle: "Punggung tengah, rear delt",
+                        guide: "Berbaring di bawah meja kokoh atau bar rendah, pegang tepi dengan lebar sedikit melebihi bahu, tarik tubuh Anda ke atas sampai dada hampir menyentuh pegangan.",
+                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 8-10"]
+                    },
+                    {
+                        no: 3,
+                        name: "Bodyweight RDL (Satu Kaki)",
+                        muscle: "Hamstring, punggung bawah",
+                        guide: "Berdiri satu kaki. Condongkan tubuh ke depan sembari meluruskan kaki yang lain ke belakang. Rasakan regangan pada paha belakang kaki penopang.",
+                        progressions: ["2 x 6-8 / kaki", "2 x 8-10 / kaki", "3 x 8-10 / kaki"]
+                    },
+                    {
+                        no: 4,
+                        name: "Leg Raise",
+                        muscle: "Perut bawah",
+                        guide: "Berbaring telentang, letakkan tangan di bawah pinggul untuk proteksi punggung. Angkat kedua kaki lurus ke atas hingga 90 derajat, turunkan perlahan tanpa menyentuh lantai.",
+                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 8-10"]
+                    },
+                    {
+                        no: 5,
+                        name: "Reverse Hyperextension",
+                        muscle: "Punggung bawah",
+                        guide: "Berbaring tengkurap di atas bangku dengan kaki menggantung di tepi. Angkat kedua kaki lurus ke atas menggunakan kekuatan punggung bawah dan bokong.",
+                        progressions: ["2 x 8-10", "2 x 10-12", "3 x 10-12"]
+                    }
+                ]
+            },
+            jumat: {
+                dayName: "JUMAT",
+                focus: "Full Body & Variations",
+                description: "Kombinasi latihan menyeluruh dengan penambahan sudut bahu vertical push, variasi kaki, dan isolasi lengan.",
+                exercises: [
+                    {
+                        no: 1,
+                        name: "Pike Push Up",
+                        muscle: "Bahu (overhead), trisep",
+                        guide: "Mulai dari posisi push up, lalu dorong pinggul ke atas membentuk huruf V terbalik. Turunkan kepala ke lantai di depan tangan Anda secara diagonal, lalu dorong.",
+                        progressions: ["2 x 5-7", "2 x 8-10", "3 x 6-8"]
+                    },
+                    {
+                        no: 2,
+                        name: "Reverse Lunge",
+                        muscle: "Kaki (paha & bokong)",
+                        guide: "Berdiri tegak, langkahkan kaki kanan ke belakang dan turunkan lutut kanan hingga hampir menyentuh lantai. Kembali berdiri tegak lalu ganti kaki.",
+                        progressions: ["2 x 6-8 / kaki", "2 x 8-10 / kaki", "3 x 8-10 / kaki"]
+                    },
+                    {
+                        no: 3,
+                        name: "Australian Pull Up (Lebar)",
+                        muscle: "Rear delt, trapezius",
+                        guide: "Gunakan pegangan yang lebih lebar dari bahu untuk memfokuskan tarikan pada punggung atas dan bahu bagian belakang.",
+                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 8-10"]
+                    },
+                    {
+                        no: 4,
+                        name: "Diamond Push Up",
+                        muscle: "Trisep, dada tengah",
+                        guide: "Rapatkan ibu jari dan telunjuk kedua tangan membentuk berlian di lantai. Turunkan dada tepat ke atas posisi tangan tersebut untuk memberi beban ekstra pada trisep.",
+                        progressions: ["2 x 4-6", "2 x 6-8", "3 x 6-8"]
+                    },
+                    {
+                        no: 5,
+                        name: "Side Plank (Kiri & Kanan)",
+                        muscle: "Core Oblique",
+                        guide: "Bertumpulah pada satu siku dan sisi luar kaki. Angkat pinggul hingga membentuk garis lurus. Lakukan durasi yang sama untuk kedua sisi pinggul.",
+                        progressions: ["2 x 15 dtk / sisi", "2 x 20 dtk / sisi", "3 x 20 dtk / sisi"]
+                    }
+                ]
+            }
+        };
+
+        // Application State
+        let currentDay = 'senin';
+        let currentWeekPhase = 1; // 1 = Weeks 1-2, 2 = Weeks 3-4, 3 = Weeks 5-6
+        let workoutSession = {
+            active: false,
+            day: '',
+            currentExerciseIdx: 0,
+            setsState: [] // tracks status check for each set: Array of boolean arrays
+        };
+        let restTimer = null;
+        let restSecondsLeft = 0;
+        let isDarkMode = false;
+
+        // Sound System utilizing Web Audio API
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playBeep() {
+            try {
+                // First try standard HTML5 Audio
+                const sound = document.getElementById('timerAudioAlert');
+                if (sound) {
+                    sound.currentTime = 0;
+                    sound.play().catch(() => playSynthesizedBeep());
+                } else {
+                    playSynthesizedBeep();
+                }
+            } catch (e) {
+                playSynthesizedBeep();
+            }
+        }
+
+        function playSynthesizedBeep() {
+            try {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+            } catch(e) {}
+        }
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            // Theme initialization
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                enableDarkTheme();
+            } else {
+                disableDarkTheme();
+            }
+
+            // Bind Events
+            document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+            
+            // Build View
+            setWeekPhase(1);
+            switchTab('senin');
+        });
+
+        // Theme Switchers
+        function toggleTheme() {
+            if (isDarkMode) {
+                disableDarkTheme();
+            } else {
+                enableDarkTheme();
+            }
+        }
+        function enableDarkTheme() {
+            document.documentElement.classList.add('dark');
+            document.getElementById('sunIcon').classList.remove('hidden');
+            document.getElementById('moonIcon').classList.add('hidden');
+            localStorage.setItem('theme', 'dark');
+            isDarkMode = true;
+        }
+        function disableDarkTheme() {
+            document.documentElement.classList.remove('dark');
+            document.getElementById('sunIcon').classList.add('hidden');
+            document.getElementById('moonIcon').classList.remove('hidden');
+            localStorage.setItem('theme', 'light');
+            isDarkMode = false;
+        }
+
+        // Toast Helper
+        function showToast(message, icon = '💡') {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastIcon').innerText = icon;
+            document.getElementById('toastMessage').innerText = message;
+            
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Fase Minggu Progresi Coordinator
+        function setWeekPhase(phase) {
+            currentWeekPhase = phase;
+            
+            // UI Button styling updates
+            [1, 2, 3].forEach(p => {
+                const btn = document.getElementById(`phaseBtn${p}`);
+                if (p === phase) {
+                    btn.classList.add('bg-white', 'text-slate-900', 'shadow-md', 'dark:bg-slate-800', 'dark:text-white');
+                    btn.classList.remove('text-slate-300', 'hover:bg-white/5');
+                } else {
+                    btn.classList.remove('bg-white', 'text-slate-900', 'shadow-md', 'dark:bg-slate-800', 'dark:text-white');
+                    btn.classList.add('text-slate-300', 'hover:bg-white/5');
+                }
+            });
+
+            const labels = ["Minggu 1-2 (Fondasi)", "Minggu 3-4 (Adaptasi)", "Minggu 5-6 (Overload)"];
+            document.getElementById('activePhaseLabel').innerText = labels[phase - 1];
+            document.getElementById('targetPhaseText').innerText = labels[phase - 1].split(' ')[0];
+
+            // Rerender the active tab to update display reps
+            renderDayExercises();
+            if (workoutSession.active) {
+                updatePlayerExercise();
+            }
+        }
+
+        // Day Tab Controller
+        function switchTab(day) {
+            currentDay = day;
+            
+            // Tab button style updates
+            const days = ['senin', 'rabu', 'jumat'];
+            const colors = {
+                senin: { activeClass: 'bg-emerald-500', text: 'text-white' },
+                rabu: { activeClass: 'bg-amber-500', text: 'text-white' },
+                jumat: { activeClass: 'bg-purple-500', text: 'text-white' }
+            };
+
+            days.forEach(d => {
+                const btn = document.getElementById(`tabBtn-${d}`);
+                if (d === day) {
+                    btn.className = `tab-button py-3 text-sm font-black rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5 shadow-lg ${colors[d].activeClass} ${colors[d].text}`;
+                } else {
+                    btn.className = "tab-button py-3 text-sm font-semibold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50";
+                }
+            });
+
+            // Update title and subtitles
+            const config = workoutData[day];
+            document.getElementById('selectedDayTitle').innerHTML = `
+                <span class="w-3.5 h-3.5 rounded-full inline-block ${day === 'senin' ? 'bg-emerald-500' : day === 'rabu' ? 'bg-amber-500' : 'bg-purple-500'}"></span>
+                Sesi ${config.dayName} - ${config.focus}
+            `;
+            document.getElementById('selectedDaySub').innerText = config.description;
+
+            renderDayExercises();
+        }
+
+        // Generate Exercise Cards inside DOM
+        function renderDayExercises() {
+            const container = document.getElementById('exerciseList');
+            container.innerHTML = '';
+
+            const dayConfig = workoutData[currentDay];
+            dayConfig.exercises.forEach((ex) => {
+                const repsText = ex.progressions[currentWeekPhase - 1];
+                
+                // Set details
+                const parsedSetData = parseSetsAndReps(repsText);
+                
+                const card = document.createElement('div');
+                card.className = "p-5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition duration-200 relative overflow-hidden group";
+                
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
+                        <div class="space-y-2 flex-1">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="text-xs font-bold text-slate-400">#${ex.no}</span>
+                                <h4 class="text-base font-extrabold text-slate-900 dark:text-white">${ex.name}</h4>
+                                <span class="px-2.5 py-0.5 text-[10px] font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">${ex.muscle}</span>
+                            </div>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${ex.guide}</p>
+                        </div>
+                        
+                        <!-- Progression target visualizer -->
+                        <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800 w-full sm:w-auto justify-between">
+                            <div class="text-left sm:text-right">
+                                <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Volume Target</span>
+                                <span class="text-sm font-extrabold text-brand-600 dark:text-brand-400">${repsText}</span>
+                            </div>
+                            <div class="flex gap-1">
+                                ${Array(parsedSetData.sets).fill(0).map(() => `
+                                    <span class="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700"></span>
+                                `).join('')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Parser for raw sets/reps text (e.g. "2 x 6-8", "2 x 20 dtk", "3 x 8-10 / kaki")
+        function parseSetsAndReps(rawText) {
+            // Extracts first number as sets and second range/number as reps
+            const parts = rawText.split('x');
+            const sets = parseInt(parts[0]) || 3;
+            const reps = parts[1] ? parts[1].trim() : "10";
+            return { sets, reps };
+        }
+
+        // ==========================================
+        // WORKOUT SESSION RUNTIME ENGINE (THE PLAYER)
+        // ==========================================
+
+        function openWorkoutPlayer() {
+            // Confirm with user if starting a different day
+            if (workoutSession.active && workoutSession.day !== currentDay) {
+                const leave = confirm("Anda memiliki sesi latihan aktif di hari lain. Mulai sesi hari ini?");
+                if (!leave) return;
+            }
+
+            // Setup new session state
+            workoutSession.active = true;
+            workoutSession.day = currentDay;
+            workoutSession.currentExerciseIdx = 0;
+            
+            const exercises = workoutData[currentDay].exercises;
+            workoutSession.setsState = exercises.map(ex => {
+                const targetText = ex.progressions[currentWeekPhase - 1];
+                const parsed = parseSetsAndReps(targetText);
+                return Array(parsed.sets).fill(false); // Init all sets as uncompleted
+            });
+
+            // Update UI elements
+            document.getElementById('playerDayBadge').innerText = `${workoutData[currentDay].dayName} (${workoutData[currentDay].focus})`;
+            document.getElementById('totalExNum').innerText = exercises.length;
+            
+            updatePlayerExercise();
+            updateHUD();
+
+            // Open Modal with CSS animation
+            const playerModal = document.getElementById('playerModal');
+            playerModal.classList.remove('hidden');
+            setTimeout(() => {
+                playerModal.classList.remove('opacity-0');
+            }, 50);
+
+            showToast(`Mulai Sesi Latihan: ${workoutData[currentDay].dayName}!`, '🔥');
+        }
+
+        function updatePlayerExercise() {
+            const exIndex = workoutSession.currentExerciseIdx;
+            const ex = workoutData[workoutSession.day].exercises[exIndex];
+            const targetText = ex.progressions[currentWeekPhase - 1];
+            const parsedTarget = parseSetsAndReps(targetText);
+
+            document.getElementById('currentExNum').innerText = exIndex + 1;
+            document.getElementById('playerExName').innerText = ex.name;
+            document.getElementById('playerExMuscle').innerText = ex.muscle;
+
+            // Render interactive set buttons
+            const setsContainer = document.getElementById('playerSetsContainer');
+            setsContainer.innerHTML = '';
+
+            const currentExSetsState = workoutSession.setsState[exIndex];
+
+            for (let i = 0; i < parsedTarget.sets; i++) {
+                const isCompleted = currentExSetsState[i];
+                const setRow = document.createElement('div');
+                setRow.className = `p-4 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer ${
+                    isCompleted 
+                    ? 'bg-emerald-500/10 border-emerald-500 text-emerald-900 dark:text-emerald-300' 
+                    : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 hover:scale-[1.01]'
+                }`;
+                setRow.onclick = () => toggleSet(exIndex, i);
+
+                setRow.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-700 text-xs font-bold flex items-center justify-center">SET ${i + 1}</span>
+                        <p class="text-sm font-semibold">Lakukan <span class="font-bold underline text-brand-600 dark:text-brand-400">${parsedTarget.reps}</span></p>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs opacity-60">${isCompleted ? 'Selesai' : 'Ketuk jika selesai'}</span>
+                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                            isCompleted ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-slate-400'
+                        }">
+                            ${isCompleted ? '✓' : ''}
+                        </div>
+                    </div>
+                `;
+                setsContainer.appendChild(setRow);
+            }
+
+            // Prev / Next button status
+            document.getElementById('prevExBtn').disabled = exIndex === 0;
+            document.getElementById('prevExBtn').style.opacity = exIndex === 0 ? '0.3' : '1';
+            
+            document.getElementById('nextExBtn').disabled = exIndex === workoutData[workoutSession.day].exercises.length - 1;
+            document.getElementById('nextExBtn').style.opacity = exIndex === workoutData[workoutSession.day].exercises.length - 1 ? '0.3' : '1';
+
+            updateSessionalProgress();
+        }
+
+        function toggleSet(exIndex, setIndex) {
+            const previousState = workoutSession.setsState[exIndex][setIndex];
+            workoutSession.setsState[exIndex][setIndex] = !previousState;
+
+            // Visual rest timer triggers only if checking AS COMPLETED
+            if (!previousState) {
+                startRestTimer();
+            }
+
+            updatePlayerExercise();
+            updateHUD();
+        }
+
+        function navigateExercise(direction) {
+            const target = workoutSession.currentExerciseIdx + direction;
+            if (target >= 0 && target < workoutData[workoutSession.day].exercises.length) {
+                workoutSession.currentExerciseIdx = target;
+                updatePlayerExercise();
+            }
+        }
+
+        // Rest Timer Engine
+        function startRestTimer() {
+            // Default 60 seconds rest
+            restSecondsLeft = 60;
+            const container = document.getElementById('timerContainer');
+            container.classList.remove('opacity-50');
+            container.classList.add('bg-amber-500/20', 'border-amber-500');
+
+            updateTimerDisplay();
+
+            if (restTimer) clearInterval(restTimer);
+            restTimer = setInterval(() => {
+                restSecondsLeft--;
+                if (restSecondsLeft <= 0) {
+                    clearInterval(restTimer);
+                    playBeep();
+                    showToast("Waktu istirahat habis! Mulai set berikutnya.", "💪");
+                    container.classList.add('opacity-50');
+                }
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        function adjustTimer(seconds) {
+            restSecondsLeft = Math.max(0, restSecondsLeft + seconds);
+            updateTimerDisplay();
+        }
+
+        function skipRest() {
+            clearInterval(restTimer);
+            restSecondsLeft = 0;
+            updateTimerDisplay();
+            document.getElementById('timerContainer').classList.add('opacity-50');
+            showToast("Istirahat dilewati. Lanjut olahraga!", "🏃‍♂️");
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(restSecondsLeft / 60);
+            const seconds = restSecondsLeft % 60;
+            document.getElementById('timerDisplay').innerText = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Calculate progress percentage inside active session
+        function updateSessionalProgress() {
+            const allSets = workoutSession.setsState.flat();
+            const completedSets = allSets.filter(s => s === true).length;
+            const progressPct = allSets.length > 0 ? Math.round((completedSets / allSets.length) * 100) : 0;
+
+            // Update main dashboard stats
+            document.getElementById('sessionProgressPct').innerText = `${progressPct}%`;
+            document.getElementById('sessionProgressBar').style.width = `${progressPct}%`;
+
+            // Update player modal progress
+            const exercisesCount = workoutSession.setsState.length;
+            let completedExercises = 0;
+            workoutSession.setsState.forEach(setArray => {
+                if (setArray.every(s => s === true)) completedExercises++;
+            });
+
+            document.getElementById('playerOverallProgressText').innerText = `${completedExercises}/${exercisesCount} Gerakan`;
+            document.getElementById('playerProgressBar').style.width = `${progressPct}%`;
+
+            // Unlock finish button if everything is complete
+            const finishBtn = document.getElementById('finishSessionBtn');
+            if (completedSets === allSets.length) {
+                finishBtn.disabled = false;
+                finishBtn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+            } else {
+                finishBtn.disabled = true;
+            }
+        }
+
+        // HUD Mini-player sync
+        function updateHUD() {
+            const currentEx = workoutData[workoutSession.day].exercises[workoutSession.currentExerciseIdx];
+            document.getElementById('hudExerciseName').innerText = currentEx.name;
+
+            const currentExSetsState = workoutSession.setsState[workoutSession.currentExerciseIdx];
+            const completedSets = currentExSetsState.filter(s => s).length;
+            document.getElementById('hudProgressText').innerText = `Set ${completedSets}/${currentExSetsState.length}`;
+
+            // Make HUD visible if workout is active
+            const hud = document.getElementById('workoutHud');
+            if (workoutSession.active) {
+                hud.classList.remove('translate-y-96');
+            } else {
+                hud.classList.add('translate-y-96');
+            }
+        }
+
+        // Modal triggers
+        function maximizeWorkoutPlayer() {
+            const playerModal = document.getElementById('playerModal');
+            playerModal.classList.remove('hidden');
+            setTimeout(() => {
+                playerModal.classList.remove('opacity-0');
+            }, 50);
+        }
+
+        function minimizeWorkoutPlayer() {
+            const playerModal = document.getElementById('playerModal');
+            playerModal.classList.add('opacity-0');
+            setTimeout(() => {
+                playerModal.classList.add('hidden');
+            }, 3000);
+            updateHUD();
+        }
+
+        function closeWorkoutSession() {
+            const confirmClose = confirm("Anda yakin ingin mengakhiri sesi latihan? Progress latihan saat ini tidak akan disimpan.");
+            if (confirmClose) {
+                workoutSession.active = false;
+                clearInterval(restTimer);
+                document.getElementById('playerModal').classList.add('hidden');
+                updateHUD();
+                
+                // reset stats
+                document.getElementById('sessionProgressPct').innerText = `0%`;
+                document.getElementById('sessionProgressBar').style.width = `0%`;
+                showToast("Sesi latihan dibatalkan.", "🛑");
+            }
+        }
+
+        // Celebrate Workout Completion
+        function finishSession() {
+            clearInterval(restTimer);
+            document.getElementById('playerModal').classList.add('hidden');
+            
+            // Set up congrats stats
+            const dayData = workoutData[workoutSession.day];
+            document.getElementById('congratsDay').innerText = dayData.dayName;
+            document.getElementById('congratsExCompleted').innerText = `${dayData.exercises.length} / ${dayData.exercises.length}`;
+
+            // Reveal congrats modal
+            document.getElementById('congratsModal').classList.remove('hidden');
+            workoutSession.active = false;
+            updateHUD();
+        }
+
+        function closeCongratsModal() {
+            document.getElementById('congratsModal').classList.add('hidden');
+            
+            // Reset Progress Board
+            document.getElementById('sessionProgressPct').innerText = `0%`;
+            document.getElementById('sessionProgressBar').style.width = `0%`;
+        }
+    </script>
+</body>
+</html>
+
+```
