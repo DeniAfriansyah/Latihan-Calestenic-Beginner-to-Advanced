@@ -1,909 +1,882 @@
-
+```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Latihan Calisthenics</title>
+    <title>CALISTRACK - 6-Week Progress Builder</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            500: '#0284c7',
-                            600: '#0369a1',
-                            700: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        senin: '#059669',
-                        rabu: '#d97706',
-                        jumat: '#7c3aed',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Custom Premium Dark Mode Theme matching CALISTRACK design */
+        :root {
+            --bg-darker: #090d16;
+            --bg-card: #131b2e;
+            --bg-card-hover: #1b2641;
+            --accent-green: #10b981;
+            --accent-orange: #f59e0b;
+            --accent-purple: #8b5cf6;
+            --accent-blue: #0ea5e9;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-glow: rgba(16, 185, 129, 0.15);
+        }
+
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-darker);
+            color: var(--text-primary);
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+
+        /* Ultra-smooth transitions */
+        .smooth-transition {
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        ::-webkit-scrollbar-track {
-            background: transparent;
+
+        .spring-transition {
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 4px;
+
+        /* Custom scrollbar for beautiful horizontal sliding */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-        .dark ::-webkit-scrollbar-thumb {
-            background: #475569;
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Glowing card border effects on active */
+        .glow-green {
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.12);
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        /* Pulse animation for active workout button */
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(14, 165, 233, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0); }
+        }
+        .pulse-btn {
+            animation: pulseGlow 2s infinite;
+        }
+
+        /* Wave pattern or overlay background */
+        .grid-bg {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 20px 20px;
         }
     </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-200 pb-16">
+<body class="grid-bg relative flex justify-center py-6 px-4 md:px-8">
 
-    <!-- TOP HEADER / NAV BAR -->
-    <header class="sticky top-0 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
-        <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <!-- Container Utama -->
+    <div class="w-full max-w-lg flex flex-col gap-6">
+
+        <!-- Top App Bar & Theme Indicator -->
+        <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="p-2 bg-brand-500 text-white rounded-xl shadow-md shadow-brand-500/20">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <div class="w-10 h-10 bg-[#0ea5e9] rounded-xl flex items-center justify-center shadow-lg shadow-sky-500/20">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                    </svg>
                 </div>
                 <div>
-                    <h1 class="text-lg font-extrabold tracking-tight bg-gradient-to-r from-brand-600 to-indigo-600 dark:from-brand-400 dark:to-indigo-400 bg-clip-text text-transparent">CALISTRACK</h1>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium uppercase tracking-widest">6-Week Progress Builder</p>
+                    <h1 class="text-xl font-black tracking-wider text-white">CALISTRACK</h1>
+                    <p class="text-[10px] text-[#94a3b8] font-bold uppercase tracking-widest">6-Week Progress Builder</p>
                 </div>
             </div>
+            <button class="w-10 h-10 bg-[#131b2e] rounded-xl flex items-center justify-center border border-white/5 text-amber-400 hover:bg-[#1b2641] transition-all">
+                ☀️
+            </button>
+        </div>
+
+        <!-- Section Switcher Tabs -->
+        <div class="grid grid-cols-3 gap-1 bg-[#131b2e] p-1.5 rounded-xl border border-white/5">
+            <button onclick="switchSection('workout')" id="sec-workout" class="py-2.5 rounded-lg text-xs font-bold tracking-wide transition-all bg-[#1b2641] text-white">
+                🏋️ Sesi
+            </button>
+            <button onclick="switchSection('bulking')" id="sec-bulking" class="py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all text-[#94a3b8] hover:text-white">
+                🍗 Bulking
+            </button>
+            <button onclick="switchSection('posture')" id="sec-posture" class="py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all text-[#94a3b8] hover:text-white">
+                🧬 Postur
+            </button>
+        </div>
+
+        <!-- ================= SECTION 1: WORKOUT (UTAMA) ================= -->
+        <div id="section-workout" class="flex flex-col gap-5">
             
-            <div class="flex items-center gap-3">
-                <!-- Theme Toggle -->
-                <button id="themeToggleBtn" class="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:scale-105 active:scale-95 transition" aria-label="Toggle Theme">
-                    <svg id="sunIcon" class="w-5 h-5 text-amber-500 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707m12.728 0l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/></svg>
-                    <svg id="moonIcon" class="w-5 h-5 text-slate-600 dark:text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                </button>
+            <!-- Phase Badge & Program Rutin Info -->
+            <div class="flex flex-col gap-2">
+                <span class="text-[10px] font-bold text-[#0ea5e9] uppercase tracking-widest bg-sky-500/10 self-start px-2.5 py-1 rounded-full border border-sky-500/20">Program Latihan Rutin</span>
+                <h2 class="text-2xl font-extrabold tracking-tight">Kuasai Beban Tubuh Anda</h2>
+                <p class="text-xs text-[#94a3b8] leading-relaxed">Sistem progresi bertahap 6 minggu untuk kekuatan, hipertrofi, dan perbaikan postur tubuh.</p>
             </div>
-        </div>
-    </header>
 
-    <main class="max-w-4xl mx-auto px-4 mt-6 space-y-6">
-        
-        <!-- DASHBOARD HERO CARD -->
-        <section class="bg-gradient-to-br from-slate-900 via-brand-950 to-slate-900 text-white rounded-3xl p-6 shadow-xl relative overflow-hidden">
-            <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
-                <svg class="w-64 h-64" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 3.99L19.53 19H4.47L12 5.99z"/></svg>
-            </div>
-            
-            <div class="relative z-10 space-y-6">
-                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                    <div>
-                        <span class="px-3 py-1 bg-brand-500/20 text-brand-300 text-xs font-semibold rounded-full border border-brand-500/30">Program Latihan Rutin</span>
-                        <h2 class="text-2xl md:text-3xl font-extrabold mt-2 tracking-tight">Kuasai Beban Tubuh Anda</h2>
-                        <p class="text-sm text-slate-300 mt-1">Sistem progresi bertahap 6 minggu untuk kekuatan, hipertrofi, dan daya tahan.</p>
-                    </div>
-                    
-                    <!-- Fase Minggu Selector -->
-                    <div class="bg-white/10 p-1.5 rounded-2xl border border-white/10 backdrop-blur-sm self-start md:self-auto">
-                        <span class="block text-[10px] font-bold text-slate-400 uppercase px-2 mb-1">Target Fase</span>
-                        <div class="flex gap-1">
-                            <button onclick="setWeekPhase(1)" id="phaseBtn1" class="phase-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition duration-200">Minggu 1-2</button>
-                            <button onclick="setWeekPhase(2)" id="phaseBtn2" class="phase-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition duration-200">Minggu 3-4</button>
-                            <button onclick="setWeekPhase(3)" id="phaseBtn3" class="phase-btn px-3 py-1.5 text-xs font-semibold rounded-xl transition duration-200">Minggu 5-6</button>
-                        </div>
-                    </div>
+            <!-- Target Phase Selector -->
+            <div class="bg-[#131b2e] p-3 rounded-2xl border border-white/5 flex flex-col gap-2.5">
+                <span class="text-[9px] font-bold text-[#94a3b8] uppercase tracking-wider">Target Fase</span>
+                <div class="grid grid-cols-3 gap-2">
+                    <button onclick="selectPhase(1)" id="phase-1" class="py-2 text-[11px] font-bold rounded-lg bg-[#1b2641] text-white border border-sky-500/20 smooth-transition">Minggu 1–2</button>
+                    <button onclick="selectPhase(2)" id="phase-2" class="py-2 text-[11px] font-bold rounded-lg bg-transparent text-[#94a3b8] hover:text-white smooth-transition">Minggu 3–4</button>
+                    <button onclick="selectPhase(3)" id="phase-3" class="py-2 text-[11px] font-bold rounded-lg bg-transparent text-[#94a3b8] hover:text-white smooth-transition">Minggu 5–6</button>
                 </div>
+            </div>
 
-                <!-- Stats Panel -->
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-white/10">
-                    <div class="bg-white/5 p-3 rounded-2xl">
-                        <p class="text-xs text-slate-400">Total Gerakan</p>
-                        <p class="text-xl font-bold mt-1">15 Variasi</p>
+            <!-- Stats Grid Mini -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-[#131b2e] p-3.5 rounded-2xl border border-white/5 flex flex-col justify-between h-20">
+                    <span class="text-[9px] font-bold text-[#94a3b8] uppercase">Total Gerakan</span>
+                    <span class="text-lg font-extrabold text-white">13 Variasi</span>
+                </div>
+                <div class="bg-[#131b2e] p-3.5 rounded-2xl border border-white/5 flex flex-col justify-between h-20">
+                    <span class="text-[9px] font-bold text-[#94a3b8] uppercase">Fokus Latihan</span>
+                    <span class="text-lg font-extrabold text-[#0ea5e9]" id="stats-focus">Push Focus</span>
+                </div>
+                <div class="bg-[#131b2e] p-3.5 rounded-2xl border border-white/5 flex flex-col justify-between h-20">
+                    <span class="text-[9px] font-bold text-[#94a3b8] uppercase">Fase Aktif</span>
+                    <span class="text-xs font-bold text-[#10b981]" id="stats-phase">Minggu 1–2 (Fondasi)</span>
+                </div>
+                <div class="bg-[#131b2e] p-3.5 rounded-2xl border border-white/5 flex flex-col justify-between h-20">
+                    <div class="flex justify-between items-center w-full">
+                        <span class="text-[9px] font-bold text-[#94a3b8] uppercase">Penyelesaian Sesi</span>
+                        <span class="text-[10px] font-bold text-white" id="completion-text">0%</span>
                     </div>
-                    <div class="bg-white/5 p-3 rounded-2xl">
-                        <p class="text-xs text-slate-400">Fokus Latihan</p>
-                        <p class="text-xl font-bold mt-1 text-sky-400">Full-Body</p>
-                    </div>
-                    <div class="bg-white/5 p-3 rounded-2xl">
-                        <p class="text-xs text-slate-400">Fase Aktif</p>
-                        <p id="activePhaseLabel" class="text-xl font-bold mt-1 text-emerald-400">Minggu 1-2</p>
-                    </div>
-                    <div class="bg-white/5 p-3 rounded-2xl">
-                        <p class="text-xs text-slate-400">Penyelesaian Hari Ini</p>
-                        <div class="flex items-center gap-2 mt-1">
-                            <span id="sessionProgressPct" class="text-xl font-bold">0%</span>
-                            <div class="w-full bg-white/20 h-2 rounded-full overflow-hidden">
-                                <div id="sessionProgressBar" class="bg-emerald-400 h-full transition-all duration-300" style="width: 0%"></div>
-                            </div>
-                        </div>
+                    <div class="w-full bg-[#090d16] h-2 rounded-full overflow-hidden mt-1">
+                        <div id="completion-bar" class="bg-[#10b981] h-full w-0 smooth-transition" style="transition-duration: 0.8s;"></div>
                     </div>
                 </div>
             </div>
-        </section>
 
-        <!-- DAY SCHEDULE COMPONENT -->
-        <section class="space-y-4">
-            <!-- Day Selector Tabs -->
-            <div class="grid grid-cols-3 gap-2 bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl">
-                <button onclick="switchTab('senin')" id="tabBtn-senin" class="tab-button py-3 text-sm font-bold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                    <span>SENIN</span>
-                    <span class="text-[10px] opacity-70 font-normal hidden sm:inline">(Push/Legs)</span>
+            <!-- Day Selector Tabs (SENIN, RABU, JUMAT, REST DAYS) -->
+            <div class="flex gap-2 overflow-x-auto no-scrollbar pb-1">
+                <button id="tab-senin" onclick="changeDay('senin')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-black tracking-wide smooth-transition bg-[#10b981] text-[#090d16] text-center min-w-[100px]">
+                    SENIN<br><span class="text-[9px] font-medium opacity-80">Push</span>
                 </button>
-                <button onclick="switchTab('rabu')" id="tabBtn-rabu" class="tab-button py-3 text-sm font-bold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
-                    <span>RABU</span>
-                    <span class="text-[10px] opacity-70 font-normal hidden sm:inline">(Pull/Core)</span>
+                <button id="tab-selasa" onclick="changeDay('selasa')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]">
+                    SELASA<br><span class="text-[9px] font-medium opacity-60">Rest</span>
                 </button>
-                <button onclick="switchTab('jumat')" id="tabBtn-jumat" class="tab-button py-3 text-sm font-bold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5">
-                    <span class="w-2.5 h-2.5 rounded-full bg-purple-500"></span>
-                    <span>JUMAT</span>
-                    <span class="text-[10px] opacity-70 font-normal hidden sm:inline">(Full Body)</span>
+                <button id="tab-rabu" onclick="changeDay('rabu')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]">
+                    RABU<br><span class="text-[9px] font-medium opacity-60">Pull</span>
+                </button>
+                <button id="tab-kamis" onclick="changeDay('kamis')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]">
+                    KAMIS<br><span class="text-[9px] font-medium opacity-60">Rest</span>
+                </button>
+                <button id="tab-jumat" onclick="changeDay('jumat')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]">
+                    JUMAT<br><span class="text-[9px] font-medium opacity-60">Shoulder</span>
+                </button>
+                <button id="tab-sabtu" onclick="changeDay('sabtu')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]">
+                    SABTU<br><span class="text-[9px] font-medium opacity-60">Rest</span>
+                </button>
+                <button id="tab-minggu" onclick="changeDay('minggu')" class="flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]">
+                    MINGGU<br><span class="text-[9px] font-medium opacity-60">Rest</span>
                 </button>
             </div>
 
-            <!-- Tab Content Wrapper -->
-            <div class="space-y-4">
-                <!-- Day Info & Start Workout Button -->
-                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
-                    <div>
-                        <h3 id="selectedDayTitle" class="text-lg font-extrabold flex items-center gap-2">
-                            <!-- Populated dynamically -->
-                        </h3>
-                        <p id="selectedDaySub" class="text-xs text-slate-500 dark:text-slate-400 mt-1"></p>
-                    </div>
-                    <button id="startWorkoutBtn" onclick="openWorkoutPlayer()" class="w-full sm:w-auto px-5 py-3 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold shadow-lg shadow-brand-500/20 active:scale-95 transition flex items-center justify-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        <span>Mulai Sesi Latihan</span>
-                    </button>
+            <!-- Active Session Banner -->
+            <div id="session-banner" class="bg-[#131b2e] p-4 rounded-2xl border border-white/5 flex flex-col gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-[#10b981]" id="session-dot"></span>
+                    <h3 class="font-extrabold text-sm text-white" id="session-title">Sesi SENIN – Push Focus</h3>
                 </div>
-
-                <!-- Exercises Cards Container -->
-                <div id="exerciseList" class="grid gap-4">
-                    <!-- Cards will be populated by JavaScript -->
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <!-- FLOATING PLAYBACK CONTROLLER / ACTIVE WORKOUT HUD (Minimized state) -->
-    <div id="workoutHud" class="fixed bottom-4 left-4 right-4 max-w-lg mx-auto bg-slate-900 text-white p-4 rounded-2xl shadow-2xl border border-slate-800 flex items-center justify-between gap-4 transition-transform duration-300 translate-y-96 z-50">
-        <div class="flex items-center gap-3">
-            <div class="relative w-10 h-10 flex items-center justify-center rounded-full bg-brand-500/20 text-brand-400 border border-brand-500/30 animate-pulse">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
-            </div>
-            <div>
-                <p class="text-xs text-slate-400">Latihan Sedang Berjalan</p>
-                <p id="hudExerciseName" class="text-sm font-extrabold truncate max-w-[150px] sm:max-w-[200px]">Push Up</p>
-            </div>
-        </div>
-        <div class="flex items-center gap-2">
-            <span id="hudProgressText" class="text-xs text-slate-400 font-semibold bg-white/10 px-2 py-1 rounded">Set 0/3</span>
-            <button onclick="maximizeWorkoutPlayer()" class="px-4 py-2 bg-brand-500 hover:bg-brand-600 rounded-xl text-xs font-bold transition">Buka Player</button>
-        </div>
-    </div>
-
-    <!-- WORKOUT PLAYER MODAL (Full Screen / Overlay) -->
-    <div id="playerModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden opacity-0 transition-opacity duration-300">
-        <div class="bg-white dark:bg-slate-900 text-slate-800 dark:text-white w-full max-w-xl rounded-3xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
-            <!-- Header -->
-            <div class="p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between">
-                <div>
-                    <span id="playerDayBadge" class="px-2.5 py-0.5 text-[10px] font-bold rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">Senin (Push/Legs)</span>
-                    <h3 class="text-lg font-extrabold mt-1">Sesi Latihan Aktif</h3>
-                </div>
-                <button onclick="minimizeWorkoutPlayer()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-red-500 transition">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-                </button>
-            </div>
-
-            <!-- Scrollable Content -->
-            <div class="p-6 overflow-y-auto space-y-6 flex-1">
-                <!-- Progress bar -->
-                <div class="space-y-1">
-                    <div class="flex justify-between text-xs text-slate-500 dark:text-slate-400">
-                        <span>Laju Sesi</span>
-                        <span id="playerOverallProgressText">0/5 Gerakan</span>
-                    </div>
-                    <div class="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
-                        <div id="playerProgressBar" class="bg-brand-500 h-full transition-all duration-300" style="width: 0%"></div>
-                    </div>
-                </div>
-
-                <!-- Main Exercise Focus -->
-                <div class="p-5 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-200 dark:border-slate-800 text-center space-y-3">
-                    <div class="flex items-center justify-between text-xs text-slate-400 uppercase font-bold tracking-widest">
-                        <button onclick="navigateExercise(-1)" id="prevExBtn" class="p-1 hover:text-slate-200 transition">← Kiri</button>
-                        <span>Gerakan <span id="currentExNum">1</span> dari <span id="totalExNum">5</span></span>
-                        <button onclick="navigateExercise(1)" id="nextExBtn" class="p-1 hover:text-slate-200 transition">Kanan →</button>
-                    </div>
-                    <h4 id="playerExName" class="text-2xl font-black tracking-tight text-slate-900 dark:text-white">Push Up</h4>
-                    <p id="playerExMuscle" class="inline-block px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs font-semibold rounded-full">Dada, Trisep</p>
-                </div>
-
-                <!-- Interactive Set List -->
-                <div class="space-y-3">
-                    <h5 class="text-xs font-bold text-slate-400 uppercase tracking-widest">Daftar Set (<span id="targetPhaseText">Minggu 1-2</span>)</h5>
-                    <div id="playerSetsContainer" class="space-y-2">
-                        <!-- Sets cards built in JS -->
-                    </div>
-                </div>
-
-                <!-- Built-In Timer Widget inside Player -->
-                <div id="timerContainer" class="p-4 bg-amber-500/10 border border-amber-500/20 text-amber-600 dark:text-amber-400 rounded-2xl flex items-center justify-between transition duration-200 opacity-50">
-                    <div class="flex items-center gap-3">
-                        <div class="p-2 bg-amber-500 text-white rounded-lg">
-                            <svg class="w-5 h-5 animate-spin-slow" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                        </div>
+                <p class="text-xs text-[#94a3b8] leading-relaxed" id="session-desc">Fokus melatih kekuatan pendorong otot dada, trisep, bahu depan serta penguatan fungsional serratus anterior.</p>
+                
+                <!-- Custom Rest Timer Integrated beautifully -->
+                <div class="flex items-center justify-between bg-[#090d16] p-3 rounded-xl border border-white/5 mt-1">
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-lg">⏱️</span>
                         <div>
-                            <p class="text-xs font-bold uppercase tracking-wider">Waktu Istirahat</p>
-                            <p id="timerDisplay" class="text-xl font-mono font-extrabold">01:00</p>
+                            <div class="text-[10px] font-bold text-[#94a3b8] uppercase">Timer Jeda Istirahat</div>
+                            <div class="text-xs text-white" id="timer-status">Pilih jeda istirahat setelah set</div>
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        <button onclick="adjustTimer(-10)" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-xs font-bold rounded">-10s</button>
-                        <button onclick="adjustTimer(10)" class="px-2.5 py-1 bg-amber-500/20 hover:bg-amber-500/30 text-xs font-bold rounded">+10s</button>
-                        <button id="skipTimerBtn" onclick="skipRest()" class="px-3 py-1 bg-amber-500 text-white text-xs font-bold rounded-lg hover:bg-amber-600 transition">Lewati</button>
+                        <button onclick="setRestTimer(60)" class="px-2 py-1 text-[10px] font-bold bg-[#131b2e] rounded text-[#94a3b8] hover:text-white transition">60s</button>
+                        <button onclick="setRestTimer(90)" class="px-2 py-1 text-[10px] font-bold bg-[#131b2e] rounded text-[#94a3b8] hover:text-white transition">90s</button>
+                        <span id="timer-countdown" class="font-mono text-sm font-bold text-[#10b981] px-2 py-0.5 bg-emerald-500/10 rounded">01:30</span>
+                        <button id="timer-ctrl" onclick="toggleTimer()" class="p-1.5 bg-[#0ea5e9] hover:bg-sky-600 rounded-lg text-white transition">
+                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Footer Action Button -->
-            <div class="p-6 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex gap-3">
-                <button onclick="closeWorkoutSession()" class="flex-1 py-3 bg-red-500/10 hover:bg-red-500/20 text-red-500 rounded-xl font-bold transition text-center text-sm">Akhiri Sesi</button>
-                <button onclick="finishSession()" id="finishSessionBtn" class="flex-[2] py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl font-extrabold shadow-lg shadow-emerald-500/20 transition text-center text-sm disabled:opacity-50 disabled:cursor-not-allowed" disabled>Selesaikan Latihan</button>
+            <!-- Exercise Stack (Cards) -->
+            <div id="exercise-list" class="flex flex-col gap-4">
+                <!-- Dynamically populated via JS -->
+            </div>
+
+        </div>
+
+        <!-- ================= SECTION 2: BULKING CALCULATOR ================= -->
+        <div id="section-bulking" class="hidden flex flex-col gap-5">
+            <div class="flex flex-col gap-2">
+                <span class="text-[10px] font-bold text-[#f59e0b] uppercase tracking-widest bg-amber-500/10 self-start px-2.5 py-1 rounded-full border border-amber-500/20">Target Nutrisi</span>
+                <h2 class="text-2xl font-extrabold tracking-tight">Kalkulator Bulking & Surplus</h2>
+                <p class="text-xs text-[#94a3b8] leading-relaxed">Formulasi kebutuhan asupan protein dan kalori harian untuk mempercepat progres kenaikan massa otot secara terstruktur.</p>
+            </div>
+
+            <div class="bg-[#131b2e] p-5 rounded-2xl border border-white/5 flex flex-col gap-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1.5">Berat Badan (kg)</label>
+                    <input type="number" id="bulk-weight" value="55" class="w-full p-3 bg-[#090d16] border border-white/5 rounded-xl text-white font-bold outline-none focus:border-[#0ea5e9] transition">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1.5">Tinggi Badan (cm)</label>
+                    <input type="number" id="bulk-height" value="172" class="w-full p-3 bg-[#090d16] border border-white/5 rounded-xl text-white font-bold outline-none focus:border-[#0ea5e9] transition">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1.5">Usia (Tahun)</label>
+                    <input type="number" id="bulk-age" value="21" class="w-full p-3 bg-[#090d16] border border-white/5 rounded-xl text-white font-bold outline-none focus:border-[#0ea5e9] transition">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-[#94a3b8] uppercase mb-1.5">Level Aktivitas</label>
+                    <select id="bulk-activity" class="w-full p-3 bg-[#090d16] border border-white/5 rounded-xl text-white font-bold outline-none focus:border-[#0ea5e9] transition">
+                        <option value="1.2">Sangat Ringan (Bekerja Duduk / Rebahan)</option>
+                        <option value="1.375" selected>Aktif Latihan Rutin Calistrack (3 Hari Kerja)</option>
+                        <option value="1.55">Sangat Aktif (Latihan + Bekerja Fisik Ringan)</option>
+                    </select>
+                </div>
+                <button onclick="calculateBulk()" class="w-full py-3 bg-[#0ea5e9] hover:bg-sky-600 rounded-xl text-xs font-bold text-white transition shadow-lg shadow-sky-500/10">
+                    Hitung Target Kalori & Protein
+                </button>
+            </div>
+
+            <!-- Result Cards -->
+            <div class="grid grid-cols-2 gap-3">
+                <div class="bg-[#131b2e] p-4 rounded-2xl border border-white/5 flex flex-col justify-between">
+                    <span class="text-[9px] font-bold text-[#94a3b8] uppercase">Target Kalori Bulking</span>
+                    <div>
+                        <div class="text-xl font-black text-[#f59e0b]" id="bulk-calories-val">-- <span class="text-[10px] font-normal">kcal</span></div>
+                        <span class="text-[8px] text-[#10b981] font-semibold">Termasuk surplus +400 kkal</span>
+                    </div>
+                </div>
+                <div class="bg-[#131b2e] p-4 rounded-2xl border border-white/5 flex flex-col justify-between">
+                    <span class="text-[9px] font-bold text-[#94a3b8] uppercase">Kebutuhan Protein</span>
+                    <div>
+                        <div class="text-xl font-black text-[#8b5cf6]" id="bulk-protein-val">-- <span class="text-[10px] font-normal">gram</span></div>
+                        <span class="text-[8px] text-[#94a3b8]">Rasio optimal pembentuk otot</span>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- AUDIO PLAYER ALERT ELEMENT (Procedural Synthesis backup included) -->
-    <audio id="timerAudioAlert" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-600.wav" preload="auto"></audio>
-
-    <!-- Custom Notification Toast -->
-    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 text-sm font-semibold transition-all duration-300 translate-y-24 opacity-0 z-50">
-        <span id="toastIcon">💡</span>
-        <span id="toastMessage">Semangat! Sesi latihan baru dimulai.</span>
-    </div>
-
-    <!-- CONGRATULATIONS MODAL -->
-    <div id="congratsModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-white dark:bg-slate-900 p-8 rounded-3xl max-w-md w-full text-center space-y-6 shadow-2xl border border-slate-200 dark:border-slate-800">
-            <div class="w-20 h-20 bg-emerald-500 text-white rounded-full flex items-center justify-center mx-auto text-4xl shadow-lg shadow-emerald-500/30">
-                🎉
+        <!-- ================= SECTION 3: WINGING TRACKER ================= -->
+        <div id="section-posture" class="hidden flex flex-col gap-5">
+            <div class="flex flex-col gap-2">
+                <span class="text-[10px] font-bold text-[#8b5cf6] uppercase tracking-widest bg-purple-500/10 self-start px-2.5 py-1 rounded-full border border-purple-500/20">Rehabilitasi Postur</span>
+                <h2 class="text-2xl font-extrabold tracking-tight">Winging Scapula Tracker</h2>
+                <p class="text-xs text-[#94a3b8] leading-relaxed">Pantau perkembangan struktural tulang belikat Anda secara bertahap menuju posisi rata yang ideal.</p>
             </div>
-            <div class="space-y-2">
-                <h3 class="text-2xl font-extrabold">Kerja Bagus!</h3>
-                <p class="text-slate-500 dark:text-slate-400 text-sm">Anda telah menyelesaikan program latihan hari ini dengan konsisten. Satu langkah lebih dekat menuju tubuh impian Anda!</p>
-            </div>
-            <div class="bg-slate-100 dark:bg-slate-800 p-4 rounded-2xl flex justify-around">
-                <div>
-                    <span class="block text-xs text-slate-400">Hari Selesai</span>
-                    <span id="congratsDay" class="text-lg font-bold">Senin</span>
+
+            <div class="bg-[#131b2e] p-5 rounded-2xl border border-white/5 flex flex-col gap-4">
+                <h3 class="text-xs font-bold text-white">Masukkan Hasil Pengukuran Belikat:</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[9px] font-bold text-[#94a3b8] uppercase mb-1">Kanan (cm)</label>
+                        <input type="number" step="0.1" id="posture-right" placeholder="contoh: 3.5" class="w-full p-2.5 bg-[#090d16] border border-white/5 rounded-xl text-white font-bold outline-none focus:border-[#8b5cf6] transition text-sm text-center">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] font-bold text-[#94a3b8] uppercase mb-1">Kiri (cm)</label>
+                        <input type="number" step="0.1" id="posture-left" placeholder="contoh: 3.2" class="w-full p-2.5 bg-[#090d16] border border-white/5 rounded-xl text-white font-bold outline-none focus:border-[#8b5cf6] transition text-sm text-center">
+                    </div>
                 </div>
-                <div class="border-l border-slate-200 dark:border-slate-700"></div>
                 <div>
-                    <span class="block text-xs text-slate-400">Total Gerakan</span>
-                    <span id="congratsExCompleted" class="text-lg font-bold">5 / 5</span>
+                    <label class="block text-[9px] font-bold text-[#94a3b8] uppercase mb-1">Tanggal Pemeriksaan</label>
+                    <input type="date" id="posture-date" class="w-full p-2.5 bg-[#090d16] border border-white/5 rounded-xl text-[#94a3b8] font-bold outline-none text-sm focus:border-[#8b5cf6] transition">
+                </div>
+                <button onclick="savePostureLog()" class="w-full py-2.5 bg-[#8b5cf6] hover:bg-purple-600 rounded-xl text-xs font-bold text-white transition shadow-lg shadow-purple-500/10">
+                    Simpan Log Perkembangan
+                </button>
+            </div>
+
+            <div class="bg-[#131b2e] p-5 rounded-2xl border border-white/5 flex flex-col gap-3">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider">Riwayat Pengukuran Terkini</h3>
+                <div id="posture-logs-container" class="flex flex-col gap-2 max-h-56 overflow-y-auto pr-1">
+                    <!-- History logs loaded from localStorage -->
+                    <p class="text-[11px] text-[#94a3b8] italic text-center py-4">Belum ada riwayat pengukuran.</p>
                 </div>
             </div>
-            <button onclick="closeCongratsModal()" class="w-full py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-bold rounded-2xl shadow-lg shadow-brand-500/20 active:scale-95 transition">Kembali ke Dashboard</button>
         </div>
+
+        <!-- Bottom Copyright / Footer Info -->
+        <footer class="text-center py-6 text-[10px] text-[#94a3b8]/50">
+            CALISTRACK © 2026 • Dirancang untuk Kinerja & Pemulihan Postur Maksimal
+        </footer>
+
     </div>
 
-    <!-- CALISTHENICS DATA ENGINE -->
+    <!-- Alert / Toast Notification System -->
+    <div id="toast-notif" class="fixed bottom-6 right-6 p-4 rounded-xl shadow-2xl bg-[#131b2e] text-white text-xs font-semibold tracking-wide translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 border border-white/10 flex items-center gap-2">
+        <span id="toast-icon">⚡</span> <span id="toast-msg">Notifikasi</span>
+    </div>
+
     <script>
-        const workoutData = {
+        // Data Workout Program 3-Hari (Disiplin 3-Set Semuanya)
+        const workouts = {
             senin: {
-                dayName: "SENIN",
-                focus: "Push & Legs Focus",
-                description: "Fokus pada kekuatan mendorong (otot dada, trisep, bahu depan) serta kekuatan kaki (paha depan & betis).",
+                focus: "Push Focus",
+                desc: "Target fungsional kekuatan pendorong otot dada, trisep, bahu depan, serta terapi mengaktifkan otot serratus anterior.",
                 exercises: [
                     {
-                        no: 1,
-                        name: "Push Up",
-                        muscle: "Dada, trisep, bahu depan",
-                        guide: "Jaga tubuh tetap lurus seperti papan. Turunkan dada hingga sedekat mungkin dengan lantai, lalu dorong kembali ke atas sampai tangan lurus tanpa mengunci siku.",
-                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 6-8"]
+                        name: "Dips (Parallel Bars)",
+                        target: "Dada Bagian Bawah & Trisep",
+                        form: "Condongkan tubuh sedikit ke depan ketika menurunkan badan, pastikan siku mengarah ke belakang (tidak menekuk ke samping luar).",
+                        volume: "3 Set × 8–12 Reps",
+                        id: "push_ex1"
                     },
                     {
-                        no: 2,
-                        name: "Chair Dip",
-                        muscle: "Trisep, dada bawah",
-                        guide: "Gunakan kursi kokoh. Tempatkan tangan di tepi, kaki diluruskan ke depan. Turunkan pinggul dengan membengkokkan siku hingga membentuk sudut 90 derajat.",
-                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 6-8"]
+                        name: "Decline Push-Up",
+                        target: "Serat Atas Dada (Upper Chest)",
+                        form: "Letakkan kedua telapak kaki di atas kursi/kotak yang kokoh. Kendalikan tempo saat turun dan kencangkan otot inti (*core*).",
+                        volume: "3 Set × 10–12 Reps",
+                        id: "push_ex2"
                     },
                     {
-                        no: 3,
-                        name: "Air Squat",
-                        muscle: "Paha depan, bokong",
-                        guide: "Buka kaki selebar bahu. Turunkan bokong ke belakang seperti hendak duduk di kursi. Usahakan paha sejajar dengan lantai dengan dada tetap tegap.",
-                        progressions: ["2 x 8-10", "2 x 10-12", "3 x 10-12"]
+                        name: "Regular Push-Up (Protraksi)",
+                        target: "Serat Tengah Dada & Serratus Anterior",
+                        form: "Wajib Protraksi: Pada posisi atas gerakan, dorong telapak tangan ekstra kuat ke lantai sampai punggung atas melengkung sempurna.",
+                        volume: "3 Set × 12 Reps",
+                        id: "push_ex3",
+                        postureSpecial: true
                     },
                     {
-                        no: 4,
-                        name: "Calf Raise",
-                        muscle: "Betis",
-                        guide: "Berdiri tegak, angkat tumit Anda setinggi mungkin bertumpu pada ujung kaki. Tahan 1 detik di atas, lalu turunkan tumit secara perlahan.",
-                        progressions: ["2 x 12-15", "2 x 15-20", "3 x 15-20"]
-                    },
-                    {
-                        no: 5,
-                        name: "Plank (Tahan)",
-                        muscle: "Perut (Core)",
-                        guide: "Bertumpulah pada lengan bawah dan jari kaki. Kencangkan perut dan bokong. Jaga garis lurus dari kepala hingga tumit sepanjang waktu.",
-                        progressions: ["2 x 20 dtk", "2 x 30 dtk", "3 x 25 dtk"]
+                        name: "Diamond Push-Up",
+                        target: "Dada Bagian Dalam & Trisep",
+                        form: "Bentuk posisi berlian dengan mempertemukan ibu jari dan telunjuk tepat di bagian tengah bawah dada Anda.",
+                        volume: "3 Set × 8–12 Reps",
+                        id: "push_ex4"
                     }
                 ]
+            },
+            selasa: {
+                focus: "Rest & Grow",
+                desc: "Otot tumbuh saat Anda beristirahat. Hindari latihan angkat beban hari ini, fokuslah pada peregangan santai dan pemulihan tubuh.",
+                exercises: []
             },
             rabu: {
-                dayName: "RABU",
-                focus: "Pull & Core Focus",
-                description: "Fokus pada tarikan (otot punggung, bisep, bahu belakang) serta kestabilan perut tengah dan bawah.",
+                focus: "Pull Focus",
+                desc: "Membangun ketebalan punggung atas, melebarkan lats, meningkatkan kekuatan genggaman, serta meregangkan tulang belakang.",
                 exercises: [
                     {
-                        no: 1,
-                        name: "Pull Up / Australian Pull Up",
-                        muscle: "Punggung lebar, bisep",
-                        guide: "Jika melakukan Pull Up: tarik dagu melampaui bar. Jika Australian Pull Up: posisikan bar setinggi pinggang, condongkan tubuh di bawah bar, lalu tarik dada menyentuh bar.",
-                        progressions: ["2 x 3-5 (Aust: 2x6-8)", "2 x 5-6 (Aust: 2x8-10)", "3 x 5-6 (Aust: 3x8-10)"]
+                        name: "Wide Grip Pull-Up",
+                        target: "Sayap Lebar (Latissimus Dorsi)",
+                        form: "Genggam bar secara lebar. Lakukan tarikan penuh dari posisi menggelantung lurus tanpa bantuan ayunan kaki (*no kipping*).",
+                        volume: "3 Set × 8 Reps",
+                        id: "pull_ex1"
                     },
                     {
-                        no: 2,
-                        name: "Bodyweight Row / Inverted Row",
-                        muscle: "Punggung tengah, rear delt",
-                        guide: "Berbaring di bawah meja kokoh atau bar rendah, pegang tepi dengan lebar sedikit melebihi bahu, tarik tubuh Anda ke atas sampai dada hampir menyentuh pegangan.",
-                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 8-10"]
+                        name: "Close Grip Chin-Up",
+                        target: "Lats Bagian Bawah & Biseps",
+                        form: "Telapak tangan menghadap ke arah wajah (*underhand*). Lakukan tarikan sampai dada bagian atas mendekati bar.",
+                        volume: "3 Set × 8–10 Reps",
+                        id: "pull_ex2"
                     },
                     {
-                        no: 3,
-                        name: "Bodyweight RDL (Satu Kaki)",
-                        muscle: "Hamstring, punggung bawah",
-                        guide: "Berdiri satu kaki. Condongkan tubuh ke depan sembari meluruskan kaki yang lain ke belakang. Rasakan regangan pada paha belakang kaki penopang.",
-                        progressions: ["2 x 6-8 / kaki", "2 x 8-10 / kaki", "3 x 8-10 / kaki"]
+                        name: "Inverted Row (Underhand)",
+                        target: "Tebal Belikat & Rhomboids",
+                        form: "Tarik tubuh secara lurus kencang sampai bar/ring menyentuh dada bagian bawah. Jepit belikat sekuat mungkin di puncak.",
+                        volume: "3 Set × 10–12 Reps",
+                        id: "pull_ex3"
                     },
                     {
-                        no: 4,
-                        name: "Leg Raise",
-                        muscle: "Perut bawah",
-                        guide: "Berbaring telentang, letakkan tangan di bawah pinggul untuk proteksi punggung. Angkat kedua kaki lurus ke atas hingga 90 derajat, turunkan perlahan tanpa menyentuh lantai.",
-                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 8-10"]
-                    },
-                    {
-                        no: 5,
-                        name: "Reverse Hyperextension",
-                        muscle: "Punggung bawah",
-                        guide: "Berbaring tengkurap di atas bangku dengan kaki menggantung di tepi. Angkat kedua kaki lurus ke atas menggunakan kekuatan punggung bawah dan bokong.",
-                        progressions: ["2 x 8-10", "2 x 10-12", "3 x 10-12"]
+                        name: "Dead Hang Stretch",
+                        target: "Regang Fasia Otot & Dekompresi",
+                        form: "Gantung rileks tanpa mengaktifkan otot bahu untuk meregangkan struktur punggung dan memperlancar aliran darah.",
+                        volume: "3 Set × Tahan Maksimal",
+                        id: "pull_ex4"
                     }
                 ]
             },
+            kamis: {
+                focus: "Rest & Grow",
+                desc: "Hari pemulihan glikogen otot secara optimal. Pastikan hidrasi tercukupi dan konsumsi makanan kaya karbohidrat kompleks.",
+                exercises: []
+            },
             jumat: {
-                dayName: "JUMAT",
-                focus: "Full Body & Variations",
-                description: "Kombinasi latihan menyeluruh dengan penambahan sudut bahu vertical push, variasi kaki, dan isolasi lengan.",
+                focus: "Shoulder & Abs Focus",
+                desc: "Penguatan otot deltoid penstabil bahu, penargetan utama serratus anterior untuk merapatkan belikat winging, serta kekuatan core.",
                 exercises: [
                     {
-                        no: 1,
-                        name: "Pike Push Up",
-                        muscle: "Bahu (overhead), trisep",
-                        guide: "Mulai dari posisi push up, lalu dorong pinggul ke atas membentuk huruf V terbalik. Turunkan kepala ke lantai di depan tangan Anda secara diagonal, lalu dorong.",
-                        progressions: ["2 x 5-7", "2 x 8-10", "3 x 6-8"]
+                        name: "Elevated Pike Push-Up",
+                        target: "Bahu Bagian Depan (Anterior Delts)",
+                        form: "Kaki di atas kursi, dorong bokong lurus ke atas. Kepala meluncur diagonal ke depan membentuk jalur segitiga saat turun.",
+                        volume: "3 Set × 8–10 Reps",
+                        id: "sh_ex1"
                     },
                     {
-                        no: 2,
-                        name: "Reverse Lunge",
-                        muscle: "Kaki (paha & bokong)",
-                        guide: "Berdiri tegak, langkahkan kaki kanan ke belakang dan turunkan lutut kanan hingga hampir menyentuh lantai. Kembali berdiri tegak lalu ganti kaki.",
-                        progressions: ["2 x 6-8 / kaki", "2 x 8-10 / kaki", "3 x 8-10 / kaki"]
+                        name: "Wide Grip Inverted Row",
+                        target: "Bahu Belakang (Posterior Delts)",
+                        form: "Tarik bar dengan siku dibuka lebar ke samping sebesar 90 derajat dari tubuh untuk membatasi bantuan otot lats.",
+                        volume: "3 Set × 10–12 Reps",
+                        id: "sh_ex2"
                     },
                     {
-                        no: 3,
-                        name: "Australian Pull Up (Lebar)",
-                        muscle: "Rear delt, trapezius",
-                        guide: "Gunakan pegangan yang lebih lebar dari bahu untuk memfokuskan tarikan pada punggung atas dan bahu bagian belakang.",
-                        progressions: ["2 x 6-8", "2 x 8-10", "3 x 8-10"]
+                        name: "Scapula Push-Up",
+                        target: "Terapi Utama Serratus Anterior",
+                        form: "Siku lurus total. Tubuh naik-turun murni digerakkan oleh penekanan belikat. Tahan kencang selama 2 detik di bagian atas.",
+                        volume: "3 Set × 15 Reps",
+                        id: "sh_ex3",
+                        postureSpecial: true
                     },
                     {
-                        no: 4,
-                        name: "Diamond Push Up",
-                        muscle: "Trisep, dada tengah",
-                        guide: "Rapatkan ibu jari dan telunjuk kedua tangan membentuk berlian di lantai. Turunkan dada tepat ke atas posisi tangan tersebut untuk memberi beban ekstra pada trisep.",
-                        progressions: ["2 x 4-6", "2 x 6-8", "3 x 6-8"]
+                        name: "Hanging Knee/Leg Raise",
+                        target: "Perut Bagian Bawah (Lower Abs)",
+                        form: "Gantung tegak pada bar, angkat lutut ke atas dada dengan meminimalkan goyangan ayunan tubuh Anda.",
+                        volume: "3 Set × 10–12 Reps",
+                        id: "sh_ex4"
                     },
                     {
-                        no: 5,
-                        name: "Side Plank (Kiri & Kanan)",
-                        muscle: "Core Oblique",
-                        guide: "Bertumpulah pada satu siku dan sisi luar kaki. Angkat pinggul hingga membentuk garis lurus. Lakukan durasi yang sama untuk kedua sisi pinggul.",
-                        progressions: ["2 x 15 dtk / sisi", "2 x 20 dtk / sisi", "3 x 20 dtk / sisi"]
+                        name: "Flat Plank (Hollow Core)",
+                        target: "Stabilitas Inti Tubuh (Core)",
+                        form: "Tahan tubuh lurus rata, remas otot bokong, dan miringkan panggul sedikit ke dalam (*posterior pelvic tilt*).",
+                        volume: "3 Set × 45–60 Detik",
+                        id: "sh_ex5"
                     }
                 ]
+            },
+            sabtu: {
+                focus: "Rest & Grow",
+                desc: "Siklus latihan tiga hari selesai sepenuhnya. Istirahat total sepanjang akhir pekan agar pemulihan berjalan optimal.",
+                exercises: []
+            },
+            minggu: {
+                focus: "Recharge",
+                desc: "Persiapkan kondisi mental, tidur nyenyak, dan penuhi porsi gizi harian agar siap berlatih maksimal di hari Senin esok.",
+                exercises: []
             }
         };
 
-        // Application State
-        let currentDay = 'senin';
-        let currentWeekPhase = 1; // 1 = Weeks 1-2, 2 = Weeks 3-4, 3 = Weeks 5-6
-        let workoutSession = {
-            active: false,
-            day: '',
-            currentExerciseIdx: 0,
-            setsState: [] // tracks status check for each set: Array of boolean arrays
+        // State variables
+        let activeDay = "senin";
+        let activePhase = 1;
+        let timer = null;
+        let timerSecondsRemaining = 90;
+        let isTimerRunning = false;
+        let postureLogs = [];
+
+        // App Setup on Load
+        window.onload = function() {
+            // Restore local storage if exists
+            const savedLogs = localStorage.getItem('calistrack_posture_logs');
+            if (savedLogs) {
+                postureLogs = JSON.parse(savedLogs);
+                renderPostureHistory();
+            }
+            restoreLoggedReps();
+            changeDay('senin');
+            calculateBulk();
         };
-        let restTimer = null;
-        let restSecondsLeft = 0;
-        let isDarkMode = false;
 
-        // Sound System utilizing Web Audio API
-        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playBeep() {
-            try {
-                // First try standard HTML5 Audio
-                const sound = document.getElementById('timerAudioAlert');
-                if (sound) {
-                    sound.currentTime = 0;
-                    sound.play().catch(() => playSynthesizedBeep());
-                } else {
-                    playSynthesizedBeep();
-                }
-            } catch (e) {
-                playSynthesizedBeep();
-            }
+        // Smooth Section Switcher
+        function switchSection(secId) {
+            document.getElementById('section-workout').classList.add('hidden');
+            document.getElementById('section-bulking').classList.add('hidden');
+            document.getElementById('section-posture').classList.add('hidden');
+
+            document.getElementById('sec-workout').className = "py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all text-[#94a3b8] hover:text-white";
+            document.getElementById('sec-bulking').className = "py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all text-[#94a3b8] hover:text-white";
+            document.getElementById('sec-posture').className = "py-2.5 rounded-lg text-xs font-semibold tracking-wide transition-all text-[#94a3b8] hover:text-white";
+
+            document.getElementById(`section-${secId}`).classList.remove('hidden');
+            document.getElementById(`sec-${secId}`).className = "py-2.5 rounded-lg text-xs font-bold tracking-wide transition-all bg-[#1b2641] text-white";
         }
 
-        function playSynthesizedBeep() {
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime); // A5 note
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.5);
-            } catch(e) {}
+        // Change Phase Selector
+        function selectPhase(phaseNum) {
+            activePhase = phaseNum;
+            document.getElementById('phase-1').className = "py-2 text-[11px] font-bold rounded-lg bg-transparent text-[#94a3b8] hover:text-white smooth-transition";
+            document.getElementById('phase-2').className = "py-2 text-[11px] font-bold rounded-lg bg-transparent text-[#94a3b8] hover:text-white smooth-transition";
+            document.getElementById('phase-3').className = "py-2 text-[11px] font-bold rounded-lg bg-transparent text-[#94a3b8] hover:text-white smooth-transition";
+
+            document.getElementById(`phase-${phaseNum}`).className = "py-2 text-[11px] font-bold rounded-lg bg-[#1b2641] text-white border border-sky-500/20 smooth-transition";
+
+            const phaseLabels = [
+                "Minggu 1–2 (Fondasi)",
+                "Minggu 3–4 (Progresif)",
+                "Minggu 5–6 (Intensifikasi)"
+            ];
+            document.getElementById('stats-phase').innerText = phaseLabels[phaseNum - 1];
+            showToast(`Fase latihan diganti ke ${phaseLabels[phaseNum - 1]}`, "🎯");
         }
 
-        // Initialize App
-        window.addEventListener('DOMContentLoaded', () => {
-            // Theme initialization
-            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                enableDarkTheme();
-            } else {
-                disableDarkTheme();
-            }
+        // Change Active Day with ultra smooth CSS transitions
+        function changeDay(dayId) {
+            activeDay = dayId;
 
-            // Bind Events
-            document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
-            
-            // Build View
-            setWeekPhase(1);
-            switchTab('senin');
-        });
-
-        // Theme Switchers
-        function toggleTheme() {
-            if (isDarkMode) {
-                disableDarkTheme();
-            } else {
-                enableDarkTheme();
-            }
-        }
-        function enableDarkTheme() {
-            document.documentElement.classList.add('dark');
-            document.getElementById('sunIcon').classList.remove('hidden');
-            document.getElementById('moonIcon').classList.add('hidden');
-            localStorage.setItem('theme', 'dark');
-            isDarkMode = true;
-        }
-        function disableDarkTheme() {
-            document.documentElement.classList.remove('dark');
-            document.getElementById('sunIcon').classList.add('hidden');
-            document.getElementById('moonIcon').classList.remove('hidden');
-            localStorage.setItem('theme', 'light');
-            isDarkMode = false;
-        }
-
-        // Toast Helper
-        function showToast(message, icon = '💡') {
-            const toast = document.getElementById('toastNotification');
-            document.getElementById('toastIcon').innerText = icon;
-            document.getElementById('toastMessage').innerText = message;
-            
-            toast.classList.remove('translate-y-24', 'opacity-0');
-            toast.classList.add('translate-y-0', 'opacity-100');
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-24', 'opacity-0');
-                toast.classList.remove('translate-y-0', 'opacity-100');
-            }, 3000);
-        }
-
-        // Fase Minggu Progresi Coordinator
-        function setWeekPhase(phase) {
-            currentWeekPhase = phase;
-            
-            // UI Button styling updates
-            [1, 2, 3].forEach(p => {
-                const btn = document.getElementById(`phaseBtn${p}`);
-                if (p === phase) {
-                    btn.classList.add('bg-white', 'text-slate-900', 'shadow-md', 'dark:bg-slate-800', 'dark:text-white');
-                    btn.classList.remove('text-slate-300', 'hover:bg-white/5');
-                } else {
-                    btn.classList.remove('bg-white', 'text-slate-900', 'shadow-md', 'dark:bg-slate-800', 'dark:text-white');
-                    btn.classList.add('text-slate-300', 'hover:bg-white/5');
-                }
-            });
-
-            const labels = ["Minggu 1-2 (Fondasi)", "Minggu 3-4 (Adaptasi)", "Minggu 5-6 (Overload)"];
-            document.getElementById('activePhaseLabel').innerText = labels[phase - 1];
-            document.getElementById('targetPhaseText').innerText = labels[phase - 1].split(' ')[0];
-
-            // Rerender the active tab to update display reps
-            renderDayExercises();
-            if (workoutSession.active) {
-                updatePlayerExercise();
-            }
-        }
-
-        // Day Tab Controller
-        function switchTab(day) {
-            currentDay = day;
-            
-            // Tab button style updates
-            const days = ['senin', 'rabu', 'jumat'];
-            const colors = {
-                senin: { activeClass: 'bg-emerald-500', text: 'text-white' },
-                rabu: { activeClass: 'bg-amber-500', text: 'text-white' },
-                jumat: { activeClass: 'bg-purple-500', text: 'text-white' }
-            };
-
+            // Reset all day buttons
+            const days = ["senin", "selasa", "rabu", "kamis", "jumat", "sabtu", "minggu"];
             days.forEach(d => {
-                const btn = document.getElementById(`tabBtn-${d}`);
-                if (d === day) {
-                    btn.className = `tab-button py-3 text-sm font-black rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5 shadow-lg ${colors[d].activeClass} ${colors[d].text}`;
+                const btn = document.getElementById(`tab-${d}`);
+                if (btn) {
+                    btn.className = "flex-1 py-3 px-5 rounded-2xl text-xs font-bold tracking-wide smooth-transition bg-[#131b2e] text-[#94a3b8] text-center min-w-[100px]";
+                }
+            });
+
+            // Activate chosen day
+            const activeBtn = document.getElementById(`tab-${dayId}`);
+            if (activeBtn) {
+                if (dayId === "selasa" || dayId === "kamis" || dayId === "sabtu" || dayId === "minggu") {
+                    activeBtn.className = "flex-1 py-3 px-5 rounded-2xl text-xs font-black tracking-wide smooth-transition bg-[#f59e0b] text-[#090d16] text-center min-w-[100px]";
                 } else {
-                    btn.className = "tab-button py-3 text-sm font-semibold rounded-xl transition duration-300 flex flex-col sm:flex-row items-center justify-center gap-1.5 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700/50";
+                    activeBtn.className = "flex-1 py-3 px-5 rounded-2xl text-xs font-black tracking-wide smooth-transition bg-[#10b981] text-[#090d16] text-center min-w-[100px]";
                 }
-            });
+            }
 
-            // Update title and subtitles
-            const config = workoutData[day];
-            document.getElementById('selectedDayTitle').innerHTML = `
-                <span class="w-3.5 h-3.5 rounded-full inline-block ${day === 'senin' ? 'bg-emerald-500' : day === 'rabu' ? 'bg-amber-500' : 'bg-purple-500'}"></span>
-                Sesi ${config.dayName} - ${config.focus}
-            `;
-            document.getElementById('selectedDaySub').innerText = config.description;
+            // Update stats panel & session headers
+            const dayData = workouts[dayId];
+            document.getElementById('stats-focus').innerText = dayData.focus;
+            document.getElementById('session-title').innerText = `Sesi ${dayId.toUpperCase()} – ${dayData.focus}`;
+            document.getElementById('session-desc').innerText = dayData.desc;
 
-            renderDayExercises();
+            // Change session dots based on day type
+            const sessionDot = document.getElementById('session-dot');
+            if (dayId === "selasa" || dayId === "kamis" || dayId === "sabtu" || dayId === "minggu") {
+                sessionDot.className = "w-2.5 h-2.5 rounded-full bg-[#f59e0b]";
+            } else {
+                sessionDot.className = "w-2.5 h-2.5 rounded-full bg-[#10b981]";
+            }
+
+            renderExercises(dayData.exercises);
+            updateGlobalProgress();
         }
 
-        // Generate Exercise Cards inside DOM
-        function renderDayExercises() {
-            const container = document.getElementById('exerciseList');
-            container.innerHTML = '';
+        // Render Exercise Stack
+        function renderExercises(exercises) {
+            const container = document.getElementById('exercise-list');
+            container.innerHTML = "";
 
-            const dayConfig = workoutData[currentDay];
-            dayConfig.exercises.forEach((ex) => {
-                const repsText = ex.progressions[currentWeekPhase - 1];
-                
-                // Set details
-                const parsedSetData = parseSetsAndReps(repsText);
-                
-                const card = document.createElement('div');
-                card.className = "p-5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-md transition duration-200 relative overflow-hidden group";
-                
-                card.innerHTML = `
-                    <div class="flex flex-col sm:flex-row justify-between items-start gap-4">
-                        <div class="space-y-2 flex-1">
-                            <div class="flex items-center gap-2 flex-wrap">
-                                <span class="text-xs font-bold text-slate-400">#${ex.no}</span>
-                                <h4 class="text-base font-extrabold text-slate-900 dark:text-white">${ex.name}</h4>
-                                <span class="px-2.5 py-0.5 text-[10px] font-semibold bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300 rounded-full">${ex.muscle}</span>
+            if (exercises.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-[#131b2e] p-6 rounded-2xl border border-dashed border-amber-500/20 text-center flex flex-col items-center gap-3">
+                        <span class="text-3xl">☕</span>
+                        <h4 class="text-sm font-bold text-white">Hari Pemulihan & Rehidrasi</h4>
+                        <p class="text-xs text-[#94a3b8] max-w-xs leading-relaxed">Tubuh Anda sedang menyerap nutrisi dan merestorasi energi otot. Nikmati waktu istirahat secara berkualitas.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            exercises.forEach((ex, idx) => {
+                const borderGlowClass = ex.postureSpecial ? 'border-l-4 border-l-[#10b981]' : '';
+                const keyS1 = `${ex.id}_s1`;
+                const keyS2 = `${ex.id}_s2`;
+                const keyS3 = `${ex.id}_s3`;
+
+                const valS1 = localStorage.getItem(keyS1) || "";
+                const valS2 = localStorage.getItem(keyS2) || "";
+                const valS3 = localStorage.getItem(keyS3) || "";
+
+                const cardHtml = `
+                    <div class="bg-[#131b2e] p-4 rounded-2xl border border-white/5 flex flex-col gap-3 smooth-transition hover:border-white/10 ${borderGlowClass}">
+                        <div class="flex justify-between items-start cursor-pointer" onclick="toggleDetails('${ex.id}')">
+                            <div>
+                                <span class="text-[10px] text-[#94a3b8] font-bold uppercase tracking-wider">#0${idx + 1} ${ex.name}</span>
+                                <h4 class="text-sm font-extrabold text-white mt-0.5">${ex.name}</h4>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <span class="text-[9px] font-bold text-white uppercase bg-white/5 px-2 py-0.5 rounded border border-white/5">${ex.target}</span>
+                                    ${ex.postureSpecial ? `<span class="text-[9px] font-bold text-[#10b981] uppercase bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">🧬 Terapi Postur</span>` : ''}
+                                </div>
                             </div>
-                            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">${ex.guide}</p>
+                            <svg id="arrow-${ex.id}" class="w-4 h-4 text-[#94a3b8] smooth-transition transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
                         </div>
-                        
-                        <!-- Progression target visualizer -->
-                        <div class="flex items-center gap-3 bg-slate-50 dark:bg-slate-900/50 p-3 rounded-xl border border-slate-100 dark:border-slate-800 w-full sm:w-auto justify-between">
-                            <div class="text-left sm:text-right">
-                                <span class="text-[10px] text-slate-400 block font-bold uppercase tracking-wider">Volume Target</span>
-                                <span class="text-sm font-extrabold text-brand-600 dark:text-brand-400">${repsText}</span>
+
+                        <!-- Expandable Details -->
+                        <div id="details-${ex.id}" class="text-[11px] text-[#94a3b8] leading-relaxed bg-[#090d16] p-3 rounded-xl border border-white/5 flex flex-col gap-1 smooth-transition">
+                            <span class="font-bold text-[#0ea5e9] uppercase text-[9px] tracking-wider">Kunci Form Perbaikan:</span>
+                            <span>${ex.form}</span>
+                        </div>
+
+                        <!-- Target Volume & Set Reps Logger -->
+                        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2 border-t border-white/5">
+                            <div class="flex items-center gap-2">
+                                <span class="text-[10px] font-bold text-[#94a3b8] uppercase">Target Volume:</span>
+                                <span class="text-[11px] font-extrabold text-[#0ea5e9] bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">${ex.volume}</span>
                             </div>
-                            <div class="flex gap-1">
-                                ${Array(parsedSetData.sets).fill(0).map(() => `
-                                    <span class="w-2.5 h-2.5 rounded-full bg-slate-300 dark:bg-slate-700"></span>
-                                `).join('')}
+                            
+                            <!-- Interactive Sets Checker Tracker -->
+                            <div class="flex gap-2.5 items-center justify-end">
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[8px] font-bold text-[#94a3b8] uppercase mb-1">Set 1</span>
+                                    <div class="flex items-center gap-1.5 bg-[#090d16] px-2 py-1 rounded-lg border border-white/5">
+                                        <input type="checkbox" id="check-${ex.id}-1" ${valS1 !== "" ? "checked" : ""} onchange="toggleSetLog('${ex.id}', 1)" class="w-3.5 h-3.5 rounded border-white/10 text-[#10b981] focus:ring-0 cursor-pointer">
+                                        <input type="number" id="input-${ex.id}-1" placeholder="rep" value="${valS1}" oninput="saveRepValue('${ex.id}', 1, this.value)" class="w-8 text-center bg-transparent outline-none font-bold text-xs text-[#10b981]">
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[8px] font-bold text-[#94a3b8] uppercase mb-1">Set 2</span>
+                                    <div class="flex items-center gap-1.5 bg-[#090d16] px-2 py-1 rounded-lg border border-white/5">
+                                        <input type="checkbox" id="check-${ex.id}-2" ${valS2 !== "" ? "checked" : ""} onchange="toggleSetLog('${ex.id}', 2)" class="w-3.5 h-3.5 rounded border-white/10 text-[#10b981] focus:ring-0 cursor-pointer">
+                                        <input type="number" id="input-${ex.id}-2" placeholder="rep" value="${valS2}" oninput="saveRepValue('${ex.id}', 2, this.value)" class="w-8 text-center bg-transparent outline-none font-bold text-xs text-[#10b981]">
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <span class="text-[8px] font-bold text-[#94a3b8] uppercase mb-1">Set 3</span>
+                                    <div class="flex items-center gap-1.5 bg-[#090d16] px-2 py-1 rounded-lg border border-white/5">
+                                        <input type="checkbox" id="check-${ex.id}-3" ${valS3 !== "" ? "checked" : ""} onchange="toggleSetLog('${ex.id}', 3)" class="w-3.5 h-3.5 rounded border-white/10 text-[#10b981] focus:ring-0 cursor-pointer">
+                                        <input type="number" id="input-${ex.id}-3" placeholder="rep" value="${valS3}" oninput="saveRepValue('${ex.id}', 3, this.value)" class="w-8 text-center bg-transparent outline-none font-bold text-xs text-[#10b981]">
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 `;
-                container.appendChild(card);
+                container.innerHTML += cardHtml;
             });
         }
 
-        // Parser for raw sets/reps text (e.g. "2 x 6-8", "2 x 20 dtk", "3 x 8-10 / kaki")
-        function parseSetsAndReps(rawText) {
-            // Extracts first number as sets and second range/number as reps
-            const parts = rawText.split('x');
-            const sets = parseInt(parts[0]) || 3;
-            const reps = parts[1] ? parts[1].trim() : "10";
-            return { sets, reps };
-        }
-
-        // ==========================================
-        // WORKOUT SESSION RUNTIME ENGINE (THE PLAYER)
-        // ==========================================
-
-        function openWorkoutPlayer() {
-            // Confirm with user if starting a different day
-            if (workoutSession.active && workoutSession.day !== currentDay) {
-                const leave = confirm("Anda memiliki sesi latihan aktif di hari lain. Mulai sesi hari ini?");
-                if (!leave) return;
-            }
-
-            // Setup new session state
-            workoutSession.active = true;
-            workoutSession.day = currentDay;
-            workoutSession.currentExerciseIdx = 0;
-            
-            const exercises = workoutData[currentDay].exercises;
-            workoutSession.setsState = exercises.map(ex => {
-                const targetText = ex.progressions[currentWeekPhase - 1];
-                const parsed = parseSetsAndReps(targetText);
-                return Array(parsed.sets).fill(false); // Init all sets as uncompleted
-            });
-
-            // Update UI elements
-            document.getElementById('playerDayBadge').innerText = `${workoutData[currentDay].dayName} (${workoutData[currentDay].focus})`;
-            document.getElementById('totalExNum').innerText = exercises.length;
-            
-            updatePlayerExercise();
-            updateHUD();
-
-            // Open Modal with CSS animation
-            const playerModal = document.getElementById('playerModal');
-            playerModal.classList.remove('hidden');
-            setTimeout(() => {
-                playerModal.classList.remove('opacity-0');
-            }, 50);
-
-            showToast(`Mulai Sesi Latihan: ${workoutData[currentDay].dayName}!`, '🔥');
-        }
-
-        function updatePlayerExercise() {
-            const exIndex = workoutSession.currentExerciseIdx;
-            const ex = workoutData[workoutSession.day].exercises[exIndex];
-            const targetText = ex.progressions[currentWeekPhase - 1];
-            const parsedTarget = parseSetsAndReps(targetText);
-
-            document.getElementById('currentExNum').innerText = exIndex + 1;
-            document.getElementById('playerExName').innerText = ex.name;
-            document.getElementById('playerExMuscle').innerText = ex.muscle;
-
-            // Render interactive set buttons
-            const setsContainer = document.getElementById('playerSetsContainer');
-            setsContainer.innerHTML = '';
-
-            const currentExSetsState = workoutSession.setsState[exIndex];
-
-            for (let i = 0; i < parsedTarget.sets; i++) {
-                const isCompleted = currentExSetsState[i];
-                const setRow = document.createElement('div');
-                setRow.className = `p-4 rounded-xl border flex items-center justify-between transition-all duration-300 cursor-pointer ${
-                    isCompleted 
-                    ? 'bg-emerald-500/10 border-emerald-500 text-emerald-900 dark:text-emerald-300' 
-                    : 'bg-slate-100 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 hover:scale-[1.01]'
-                }`;
-                setRow.onclick = () => toggleSet(exIndex, i);
-
-                setRow.innerHTML = `
-                    <div class="flex items-center gap-3">
-                        <span class="w-6 h-6 rounded-lg bg-slate-200 dark:bg-slate-700 text-xs font-bold flex items-center justify-center">SET ${i + 1}</span>
-                        <p class="text-sm font-semibold">Lakukan <span class="font-bold underline text-brand-600 dark:text-brand-400">${parsedTarget.reps}</span></p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <span class="text-xs opacity-60">${isCompleted ? 'Selesai' : 'Ketuk jika selesai'}</span>
-                        <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                            isCompleted ? 'bg-emerald-500 border-emerald-500 text-white' : 'border-slate-400'
-                        }">
-                            ${isCompleted ? '✓' : ''}
-                        </div>
-                    </div>
-                `;
-                setsContainer.appendChild(setRow);
-            }
-
-            // Prev / Next button status
-            document.getElementById('prevExBtn').disabled = exIndex === 0;
-            document.getElementById('prevExBtn').style.opacity = exIndex === 0 ? '0.3' : '1';
-            
-            document.getElementById('nextExBtn').disabled = exIndex === workoutData[workoutSession.day].exercises.length - 1;
-            document.getElementById('nextExBtn').style.opacity = exIndex === workoutData[workoutSession.day].exercises.length - 1 ? '0.3' : '1';
-
-            updateSessionalProgress();
-        }
-
-        function toggleSet(exIndex, setIndex) {
-            const previousState = workoutSession.setsState[exIndex][setIndex];
-            workoutSession.setsState[exIndex][setIndex] = !previousState;
-
-            // Visual rest timer triggers only if checking AS COMPLETED
-            if (!previousState) {
-                startRestTimer();
-            }
-
-            updatePlayerExercise();
-            updateHUD();
-        }
-
-        function navigateExercise(direction) {
-            const target = workoutSession.currentExerciseIdx + direction;
-            if (target >= 0 && target < workoutData[workoutSession.day].exercises.length) {
-                workoutSession.currentExerciseIdx = target;
-                updatePlayerExercise();
+        // Collapse/Expand Details Card
+        function toggleDetails(exId) {
+            const details = document.getElementById(`details-${exId}`);
+            const arrow = document.getElementById(`arrow-${exId}`);
+            if (details.classList.contains('hidden')) {
+                details.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                details.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
             }
         }
 
-        // Rest Timer Engine
-        function startRestTimer() {
-            // Default 60 seconds rest
-            restSecondsLeft = 60;
-            const container = document.getElementById('timerContainer');
-            container.classList.remove('opacity-50');
-            container.classList.add('bg-amber-500/20', 'border-amber-500');
+        // Handle Checklist Interactive & Update Progress Bar Instantly
+        function toggleSetLog(exId, setNum) {
+            const checkbox = document.getElementById(`check-${exId}-${setNum}`);
+            const input = document.getElementById(`input-${exId}-${setNum}`);
+            const key = `${exId}_s${setNum}`;
 
-            updateTimerDisplay();
-
-            if (restTimer) clearInterval(restTimer);
-            restTimer = setInterval(() => {
-                restSecondsLeft--;
-                if (restSecondsLeft <= 0) {
-                    clearInterval(restTimer);
-                    playBeep();
-                    showToast("Waktu istirahat habis! Mulai set berikutnya.", "💪");
-                    container.classList.add('opacity-50');
+            if (checkbox.checked) {
+                if (input.value.trim() === "") {
+                    // Pre-fill with typical reps from recommendation
+                    if (exId.includes("push_ex3") || exId.includes("sh_ex3")) {
+                        input.value = "12";
+                    } else if (exId.includes("ex4") && exId.includes("pull_ex4")) {
+                        input.value = "30"; // 30 sec dead hang stretch
+                    } else {
+                        input.value = "10";
+                    }
                 }
-                updateTimerDisplay();
-            }, 1000);
+                localStorage.setItem(key, input.value);
+                showToast(`Set ${setNum} berhasil direkam!`, "🔥");
+            } else {
+                localStorage.removeItem(key);
+                input.value = "";
+            }
+            updateGlobalProgress();
         }
 
-        function adjustTimer(seconds) {
-            restSecondsLeft = Math.max(0, restSecondsLeft + seconds);
-            updateTimerDisplay();
+        function saveRepValue(exId, setNum, val) {
+            const checkbox = document.getElementById(`check-${exId}-${setNum}`);
+            const key = `${exId}_s${setNum}`;
+            if (val.trim() !== "") {
+                checkbox.checked = true;
+                localStorage.setItem(key, val);
+            } else {
+                checkbox.checked = false;
+                localStorage.removeItem(key);
+            }
+            updateGlobalProgress();
         }
 
-        function skipRest() {
-            clearInterval(restTimer);
-            restSecondsLeft = 0;
+        // Restore saved reps inputs on start
+        function restoreLoggedReps() {
+            // Checked initially inside renderExercises
+        }
+
+        // Dynamic Progress bar update based on current page checked sets
+        function updateGlobalProgress() {
+            const dayData = workouts[activeDay];
+            if (dayData.exercises.length === 0) {
+                document.getElementById('completion-text').innerText = "100%";
+                document.getElementById('completion-bar').style.width = "100%";
+                return;
+            }
+
+            const totalSetsPossible = dayData.exercises.length * 3;
+            let checkedSets = 0;
+
+            dayData.exercises.forEach(ex => {
+                for (let s = 1; s <= 3; s++) {
+                    const checkbox = document.getElementById(`check-${ex.id}-${s}`);
+                    if (checkbox && checkbox.checked) {
+                        checkedSets++;
+                    }
+                }
+            });
+
+            const percentage = Math.round((checkedSets / totalSetsPossible) * 100);
+            document.getElementById('completion-text').innerText = `${percentage}%`;
+            document.getElementById('completion-bar').style.width = `${percentage}%`;
+        }
+
+        // Countdown Timer Rest System
+        function setRestTimer(seconds) {
+            timerSecondsRemaining = seconds;
             updateTimerDisplay();
-            document.getElementById('timerContainer').classList.add('opacity-50');
-            showToast("Istirahat dilewati. Lanjut olahraga!", "🏃‍♂️");
+            if (isTimerRunning) {
+                clearInterval(timer);
+                isTimerRunning = false;
+            }
+            toggleTimer(); // Auto-start on click
         }
 
         function updateTimerDisplay() {
-            const minutes = Math.floor(restSecondsLeft / 60);
-            const seconds = restSecondsLeft % 60;
-            document.getElementById('timerDisplay').innerText = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            const min = Math.floor(timerSecondsRemaining / 60);
+            const sec = timerSecondsRemaining % 60;
+            document.getElementById('timer-countdown').innerText = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
         }
 
-        // Calculate progress percentage inside active session
-        function updateSessionalProgress() {
-            const allSets = workoutSession.setsState.flat();
-            const completedSets = allSets.filter(s => s === true).length;
-            const progressPct = allSets.length > 0 ? Math.round((completedSets / allSets.length) * 100) : 0;
-
-            // Update main dashboard stats
-            document.getElementById('sessionProgressPct').innerText = `${progressPct}%`;
-            document.getElementById('sessionProgressBar').style.width = `${progressPct}%`;
-
-            // Update player modal progress
-            const exercisesCount = workoutSession.setsState.length;
-            let completedExercises = 0;
-            workoutSession.setsState.forEach(setArray => {
-                if (setArray.every(s => s === true)) completedExercises++;
-            });
-
-            document.getElementById('playerOverallProgressText').innerText = `${completedExercises}/${exercisesCount} Gerakan`;
-            document.getElementById('playerProgressBar').style.width = `${progressPct}%`;
-
-            // Unlock finish button if everything is complete
-            const finishBtn = document.getElementById('finishSessionBtn');
-            if (completedSets === allSets.length) {
-                finishBtn.disabled = false;
-                finishBtn.classList.add('bg-emerald-500', 'hover:bg-emerald-600');
+        function toggleTimer() {
+            const ctrlBtn = document.getElementById('timer-ctrl');
+            if (isTimerRunning) {
+                clearInterval(timer);
+                isTimerRunning = false;
+                document.getElementById('timer-status').innerText = "Timer ditangguhkan";
+                ctrlBtn.innerHTML = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>`;
             } else {
-                finishBtn.disabled = true;
-            }
-        }
-
-        // HUD Mini-player sync
-        function updateHUD() {
-            const currentEx = workoutData[workoutSession.day].exercises[workoutSession.currentExerciseIdx];
-            document.getElementById('hudExerciseName').innerText = currentEx.name;
-
-            const currentExSetsState = workoutSession.setsState[workoutSession.currentExerciseIdx];
-            const completedSets = currentExSetsState.filter(s => s).length;
-            document.getElementById('hudProgressText').innerText = `Set ${completedSets}/${currentExSetsState.length}`;
-
-            // Make HUD visible if workout is active
-            const hud = document.getElementById('workoutHud');
-            if (workoutSession.active) {
-                hud.classList.remove('translate-y-96');
-            } else {
-                hud.classList.add('translate-y-96');
-            }
-        }
-
-        // Modal triggers
-        function maximizeWorkoutPlayer() {
-            const playerModal = document.getElementById('playerModal');
-            playerModal.classList.remove('hidden');
-            setTimeout(() => {
-                playerModal.classList.remove('opacity-0');
-            }, 50);
-        }
-
-        function minimizeWorkoutPlayer() {
-            const playerModal = document.getElementById('playerModal');
-            playerModal.classList.add('opacity-0');
-            setTimeout(() => {
-                playerModal.classList.add('hidden');
-            }, 3000);
-            updateHUD();
-        }
-
-        function closeWorkoutSession() {
-            const confirmClose = confirm("Anda yakin ingin mengakhiri sesi latihan? Progress latihan saat ini tidak akan disimpan.");
-            if (confirmClose) {
-                workoutSession.active = false;
-                clearInterval(restTimer);
-                document.getElementById('playerModal').classList.add('hidden');
-                updateHUD();
+                isTimerRunning = true;
+                document.getElementById('timer-status').innerText = "Sesi istirahat sedang berjalan...";
+                ctrlBtn.innerHTML = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>`;
                 
-                // reset stats
-                document.getElementById('sessionProgressPct').innerText = `0%`;
-                document.getElementById('sessionProgressBar').style.width = `0%`;
-                showToast("Sesi latihan dibatalkan.", "🛑");
+                timer = setInterval(() => {
+                    timerSecondsRemaining--;
+                    updateTimerDisplay();
+                    if (timerSecondsRemaining <= 0) {
+                        clearInterval(timer);
+                        isTimerRunning = false;
+                        document.getElementById('timer-status').innerText = "Istirahat selesai!";
+                        ctrlBtn.innerHTML = `<svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"></path></svg>`;
+                        showToast("Waktu istirahat habis! Mulai set berikutnya!", "⏱️");
+                        playBeepAudio();
+                    }
+                }, 1000);
             }
         }
 
-        // Celebrate Workout Completion
-        function finishSession() {
-            clearInterval(restTimer);
-            document.getElementById('playerModal').classList.add('hidden');
-            
-            // Set up congrats stats
-            const dayData = workoutData[workoutSession.day];
-            document.getElementById('congratsDay').innerText = dayData.dayName;
-            document.getElementById('congratsExCompleted').innerText = `${dayData.exercises.length} / ${dayData.exercises.length}`;
-
-            // Reveal congrats modal
-            document.getElementById('congratsModal').classList.remove('hidden');
-            workoutSession.active = false;
-            updateHUD();
+        // Web Audio API Beep (Hassle-free no asset needed)
+        function playBeepAudio() {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(660, audioCtx.currentTime); // E5 note
+                gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + 0.35);
+            } catch (e) {
+                // fallbacks safely
+            }
         }
 
-        function closeCongratsModal() {
-            document.getElementById('congratsModal').classList.add('hidden');
+        // ================= BULKING CALCULATOR LOGIC =================
+        function calculateBulk() {
+            const weight = parseFloat(document.getElementById('bulk-weight').value);
+            const height = parseFloat(document.getElementById('bulk-height').value);
+            const age = parseInt(document.getElementById('bulk-age').value);
+            const activity = parseFloat(document.getElementById('bulk-activity').value);
+
+            if (isNaN(weight) || isNaN(height) || isNaN(age)) {
+                showToast("Mohon isi semua form berat & tinggi!", "❌");
+                return;
+            }
+
+            // Harris-Benedict formula (pria)
+            const bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
+            const tdee = bmr * activity;
+            const bulkTargetCalories = Math.round(tdee + 400); // 400 kcal surplus
+            const optimalProtein = Math.round(weight * 1.8);
+
+            document.getElementById('bulk-calories-val').innerHTML = `${bulkTargetCalories} <span class="text-[10px] font-normal text-[#94a3b8]">kcal</span>`;
+            document.getElementById('bulk-protein-val').innerHTML = `${optimalProtein} <span class="text-[10px] font-normal text-[#94a3b8]">gram</span>`;
+
+            showToast("Target kalori bulking berhasil diperbarui!", "🍗");
+        }
+
+        // ================= WINGING POSTURE TRACKER LOGIC =================
+        function savePostureLog() {
+            const dateVal = document.getElementById('posture-date').value;
+            const rightVal = parseFloat(document.getElementById('posture-right').value);
+            const leftVal = parseFloat(document.getElementById('posture-left').value);
+
+            if (!dateVal || isNaN(rightVal) || isNaN(leftVal)) {
+                showToast("Lengkapi input tanggal & ukuran cm", "❌");
+                return;
+            }
+
+            const newLog = {
+                date: dateVal,
+                right: rightVal,
+                left: leftVal
+            };
+
+            postureLogs.push(newLog);
+            postureLogs.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort descending
             
-            // Reset Progress Board
-            document.getElementById('sessionProgressPct').innerText = `0%`;
-            document.getElementById('sessionProgressBar').style.width = `0%`;
+            localStorage.setItem('calistrack_posture_logs', JSON.stringify(postureLogs));
+            renderPostureHistory();
+            showToast("Log progres belikat berhasil disimpan!", "✅");
+
+            document.getElementById('posture-right').value = '';
+            document.getElementById('posture-left').value = '';
+        }
+
+        function deletePostureLog(index) {
+            postureLogs.splice(index, 1);
+            localStorage.setItem('calistrack_posture_logs', JSON.stringify(postureLogs));
+            renderPostureHistory();
+            showToast("Riwayat dihapus", "🗑️");
+        }
+
+        function renderPostureHistory() {
+            const container = document.getElementById('posture-logs-container');
+            if (postureLogs.length === 0) {
+                container.innerHTML = `<p class="text-[11px] text-[#94a3b8] italic text-center py-4">Belum ada riwayat pengukuran.</p>`;
+                return;
+            }
+
+            let html = "";
+            postureLogs.forEach((log, idx) => {
+                const dateObj = new Date(log.date);
+                const formatOpts = { day: 'numeric', month: 'short', year: 'numeric' };
+                const formattedDate = dateObj.toLocaleDateString('id-ID', formatOpts);
+
+                html += `
+                    <div class="flex items-center justify-between bg-[#090d16] p-3 rounded-xl border border-white/5 spring-transition">
+                        <div>
+                            <div class="text-[11px] font-bold text-white">${formattedDate}</div>
+                            <div class="text-[10px] text-[#94a3b8] mt-0.5">Kanan: <span class="text-white font-bold">${log.right} cm</span> • Kiri: <span class="text-white font-bold">${log.left} cm</span></div>
+                        </div>
+                        <button onclick="deletePostureLog(${idx})" class="w-7 h-7 bg-[#131b2e] hover:bg-red-500/10 text-red-400 rounded-lg text-xs font-bold transition flex items-center justify-center">
+                            ✕
+                        </button>
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        // Premium Toast Notification System
+        function showToast(message, icon = "⚡") {
+            const toast = document.getElementById('toast-notif');
+            document.getElementById('toast-icon').innerText = icon;
+            document.getElementById('toast-msg').innerText = message;
+            
+            toast.classList.remove('translate-y-20', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0', 'pointer-events-none');
+            }, 2500);
         }
     </script>
 </body>
